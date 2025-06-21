@@ -101,7 +101,7 @@
 
   <script>
     function generateCode() {
-      let code = `#define BLYNK_PRINT Serial\n\n#include <ESP8266WiFi.h>\n#include <BlynkSimpleEsp8266.h>\n\nchar ssid[] = \"AB-45 Rumah Jahit Hilly\";\nchar pass[] = \"1234567890\";\n\nvoid setup() {\n  Serial.begin(9600);\n  Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);\n`;
+      let code = `#define BLYNK_PRINT Serial\n\n#include <ESP8266WiFi.h>\n#include <BlynkSimpleEsp8266.h>\n\nchar ssid[] = \"nama wifi kantor\";\nchar pass[] = \"password123\";\n\nvoid setup() {\n  Serial.begin(9600);\n  Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);\n`;
 
       for (let i = 1; i <= 3; i++) {
         const pin = `D${i - 1}`;
