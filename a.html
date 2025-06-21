@@ -15,7 +15,6 @@
         .title-font {
             font-family: 'Poppins', sans-serif;
         }
-        /* Efek bayangan teks untuk keterbacaan di atas gradien */
         .text-shadow {
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
         }
@@ -31,14 +30,30 @@
         </header>
 
         <main class="space-y-8">
-            
+
             <!-- BAGIAN KREDENSIAL -->
             <div class="bg-black bg-opacity-30 p-6 rounded-xl shadow-lg">
                 <h2 class="text-2xl font-bold mb-4 border-b-2 border-orange-400 pb-2">Kredensial & Pengaturan Awal</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <input type="text" id="authToken" placeholder="BLYNK_AUTH_TOKEN Kamu" class="p-3 bg-gray-700 bg-opacity-50 rounded-lg border border-gray-500 focus:ring-2 focus:ring-orange-400 focus:outline-none" value="k7_HlnKr3-XyB0Lzgl2-XXRvNfTQB1AC">
-                    <input type="text" id="ssid" placeholder="Nama WiFi (SSID)" class="p-3 bg-gray-700 bg-opacity-50 rounded-lg border border-gray-500 focus:ring-2 focus:ring-orange-400 focus:outline-none" value="password wifi kantor">
-                    <input type="text" id="password" placeholder="Password WiFi" class="p-3 bg-gray-700 bg-opacity-50 rounded-lg border border-gray-500 focus:ring-2 focus:ring-orange-400 focus:outline-none" value="password123">
+                <div class="space-y-4">
+                    <!-- Area untuk define tambahan dari Blynk -->
+                    <div>
+                        <label for="blynkDefine" class="block mb-2 text-sm font-medium text-gray-300">Tempel Kredensial Tambahan (ID & Nama Template)</label>
+                        <textarea id="blynkDefine" rows="3" class="w-full p-3 bg-gray-700 bg-opacity-50 rounded-lg border border-gray-500 font-mono text-sm focus:ring-2 focus:ring-orange-400 focus:outline-none" placeholder="#define BLYNK_TEMPLATE_ID &quot;TMPLxxxx&quot;&#10;#define BLYNK_TEMPLATE_NAME &quot;Device&quot;"></textarea>
+                    </div>
+                     <!-- Input untuk Auth Token -->
+                    <div>
+                         <label for="authToken" class="block mb-2 text-sm font-medium text-gray-300">Blynk Auth Token</label>
+                        <input type="text" id="authToken" placeholder="Masukkan Auth Token di sini..." class="w-full p-3 bg-gray-700 bg-opacity-50 rounded-lg border border-gray-500 focus:ring-2 focus:ring-orange-400 focus:outline-none" value="">
+                    </div>
+                     <!-- Input untuk WiFi -->
+                    <div>
+                         <label for="ssid" class="block mb-2 text-sm font-medium text-gray-300">Nama WiFi (SSID)</label>
+                        <input type="text" id="ssid" placeholder="Nama WiFi (SSID)" class="w-full p-3 bg-gray-700 bg-opacity-50 rounded-lg border border-gray-500 focus:ring-2 focus:ring-orange-400 focus:outline-none" value="">
+                    </div>
+                    <div>
+                         <label for="password" class="block mb-2 text-sm font-medium text-gray-300">Password WiFi</label>
+                        <input type="password" id="password" placeholder="Password WiFi" class="w-full p-3 bg-gray-700 bg-opacity-50 rounded-lg border border-gray-500 focus:ring-2 focus:ring-orange-400 focus:outline-none" value="">
+                    </div>
                 </div>
             </div>
 
@@ -48,7 +63,7 @@
                 <script>
                     for (let i = 1; i <= 3; i++) {
                         document.write(`
-                        <div class="bg-black bg-opacity-30 p-6 rounded-xl shadow-lg space-y-4">
+                        <div class="bg-black bg-opacity-30 p-6 rounded-xl shadow-lg space-y-4 flex flex-col">
                             <h3 class="text-xl font-bold text-center text-orange-300">BUTTON ${i} (Pin D${i} / V${i})</h3>
                             
                             <div>
@@ -61,17 +76,17 @@
                             </div>
 
                             <div class="text-center text-sm text-gray-300">
-                                <p>Jika tombol ditekan (status == 1)...</p>
+                                <p>Aksi berdasarkan status tombol dari Blynk</p>
                             </div>
 
-                            <div>
-                                <label for="ifCode${i}" class="block mb-1 text-sm font-medium text-gray-300">Aksi saat ON (dalam if-block)</label>
-                                <textarea id="ifCode${i}" rows="3" class="w-full p-2 bg-gray-700 bg-opacity-50 rounded-lg border border-gray-500 font-mono text-sm focus:ring-2 focus:ring-orange-400 focus:outline-none" placeholder="// Contoh:\n// Serial.println(\"Tombol ${i} ON\");"></textarea>
+                            <div class="flex-grow flex flex-col">
+                                <label for="ifCode${i}" class="block mb-1 text-sm font-medium text-gray-300">Aksi saat ON (status == 1)</label>
+                                <textarea id="ifCode${i}" rows="3" class="w-full p-2 bg-gray-700 bg-opacity-50 rounded-lg border border-gray-500 font-mono text-sm focus:ring-2 focus:ring-orange-400 focus:outline-none flex-grow" placeholder="// Contoh:\n// digitalWrite(D${i}, HIGH);"></textarea>
                             </div>
 
-                            <div>
-                                <label for="elseCode${i}" class="block mb-1 text-sm font-medium text-gray-300">Aksi saat OFF (dalam else-block)</label>
-                                <textarea id="elseCode${i}" rows="3" class="w-full p-2 bg-gray-700 bg-opacity-50 rounded-lg border border-gray-500 font-mono text-sm focus:ring-2 focus:ring-orange-400 focus:outline-none" placeholder="// Contoh:\n// Serial.println(\"Tombol ${i} OFF\");"></textarea>
+                            <div class="flex-grow flex flex-col">
+                                <label for="elseCode${i}" class="block mb-1 text-sm font-medium text-gray-300">Aksi saat OFF (status == 0)</label>
+                                <textarea id="elseCode${i}" rows="3" class="w-full p-2 bg-gray-700 bg-opacity-50 rounded-lg border border-gray-500 font-mono text-sm focus:ring-2 focus:ring-orange-400 focus:outline-none flex-grow" placeholder="// Contoh:\n// digitalWrite(D${i}, LOW);"></textarea>
                             </div>
 
                             <div class="border-t border-gray-600 pt-4">
@@ -105,109 +120,109 @@
     </div>
 
     <script>
-        const inputs = document.querySelectorAll('input, select, textarea');
-        inputs.forEach(input => {
-            input.addEventListener('input', generateCode);
-        });
+        // PASTIKAN SEMUA SKRIP DIJALANKAN SETELAH HALAMAN SELESAI DIMUAT
+        document.addEventListener('DOMContentLoaded', function() {
 
-        // Generate code on initial load
-        generateCode();
-
-        // Copy button functionality
-        document.getElementById('copyBtn').addEventListener('click', () => {
-            const code = document.getElementById('codeOutput').textContent;
-            navigator.clipboard.writeText(code).then(() => {
-                const btn = document.getElementById('copyBtn');
-                btn.textContent = 'Berhasil Disalin!';
-                btn.classList.remove('bg-green-600', 'hover:bg-green-700');
-                btn.classList.add('bg-blue-600');
-                setTimeout(() => {
-                    btn.textContent = 'Salin Kode';
-                    btn.classList.remove('bg-blue-600');
-                    btn.classList.add('bg-green-600', 'hover:bg-green-700');
-                }, 2000);
+            const inputs = document.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('input', generateCode);
             });
-        });
 
-        function generateCode() {
-            const authToken = document.getElementById('authToken').value || "YOUR_AUTH_TOKEN";
-            const ssid = document.getElementById('ssid').value || "YOUR_SSID";
-            const pass = document.getElementById('password').value || "YOUR_PASSWORD";
+            // Generate code on initial load
+            generateCode();
 
-            let globalVars = '';
-            let setupCode = '  // Debug console\n  Serial.begin(9600);\n';
-            let loopCode = '  Blynk.run();\n';
-            let blynkWriteFunctions = '';
+            // Copy button functionality
+            document.getElementById('copyBtn').addEventListener('click', () => {
+                const codeToCopy = document.getElementById('codeOutput').textContent;
+                navigator.clipboard.writeText(codeToCopy).then(() => {
+                    const btn = document.getElementById('copyBtn');
+                    btn.textContent = 'Berhasil Disalin!';
+                    btn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                    btn.classList.add('bg-blue-600');
+                    setTimeout(() => {
+                        btn.textContent = 'Salin Kode';
+                        btn.classList.remove('bg-blue-600');
+                        btn.classList.add('bg-green-600', 'hover:bg-green-700');
+                    }, 2000);
+                });
+            });
 
-            for (let i = 1; i <= 3; i++) {
-                const kondisi = document.getElementById(`kondisi${i}`).value;
-                const ifCode = document.getElementById(`ifCode${i}`).value.trim();
-                const elseCode = document.getElementById(`elseCode${i}`).value.trim();
-                const delayHidup = document.getElementById(`delayHidup${i}`).value;
-                const delayMati = document.getElementById(`delayMati${i}`).value;
-                const pin = `D${i}`;
-                const vPin = `V${i}`;
+            function generateCode() {
+                // Mengambil nilai dari semua input
+                const blynkDefine = document.getElementById('blynkDefine').value.trim();
+                const authToken = document.getElementById('authToken').value.trim();
+                const ssid = document.getElementById('ssid').value || "YOUR_SSID";
+                const pass = document.getElementById('password').value || "YOUR_PASSWORD";
 
-                if (kondisi !== 'none') {
-                    // --- SETUP CODE ---
-                    setupCode += `\n  // Pengaturan untuk Pin ${pin}\n`;
-                    setupCode += `  pinMode(${pin}, OUTPUT);\n`;
-                    setupCode += `  digitalWrite(${pin}, ${kondisi});\n`;
+                let globalVars = '';
+                let setupCode = '  // Debug console\n  Serial.begin(9600);\n';
+                let loopCode = '  Blynk.run();\n';
+                let blynkWriteFunctions = '';
 
-                    // --- BLYNK_WRITE FUNCTION ---
-                    blynkWriteFunctions += `\n// Fungsi ini berjalan saat ada interaksi dengan tombol di ${vPin}\n`;
-                    blynkWriteFunctions += `BLYNK_WRITE(${vPin}) {\n`;
-                    blynkWriteFunctions += `  int statusTombol = param.asInt();\n`;
-                    
-                    if (ifCode) {
-                        blynkWriteFunctions += `  if (statusTombol == 1) {\n`;
-                        blynkWriteFunctions += `    // Kode custom dari form\n    ${ifCode.split('\n').map(line => `    ${line}`).join('\n')}\n`;
-                         if (!elseCode) {
-                             blynkWriteFunctions += `  }\n`;
-                         }
-                    }
+                for (let i = 1; i <= 3; i++) {
+                    const kondisi = document.getElementById(`kondisi${i}`).value;
+                    const ifCode = document.getElementById(`ifCode${i}`).value.trim();
+                    const elseCode = document.getElementById(`elseCode${i}`).value.trim();
+                    const delayHidup = document.getElementById(`delayHidup${i}`).value;
+                    const delayMati = document.getElementById(`delayMati${i}`).value;
+                    const pin = `D${i}`;
+                    const vPin = `V${i}`;
 
-                    if (elseCode) {
-                        if (!ifCode) { // Jika hanya else yang diisi
-                             blynkWriteFunctions += `  if (statusTombol == 0) {\n`;
-                        } else { // Jika if juga diisi
-                             blynkWriteFunctions += `  } else {\n`;
+                    if (kondisi !== 'none') {
+                        // --- SETUP CODE ---
+                        setupCode += `\n  // Pengaturan untuk Pin ${pin}\n`;
+                        setupCode += `  pinMode(${pin}, OUTPUT);\n`;
+                        setupCode += `  digitalWrite(${pin}, ${kondisi});\n`;
+
+                        // --- BLYNK_WRITE FUNCTION ---
+                        blynkWriteFunctions += `\n// Fungsi ini berjalan saat ada interaksi dengan tombol di ${vPin}\n`;
+                        blynkWriteFunctions += `BLYNK_WRITE(${vPin}) {\n`;
+                        blynkWriteFunctions += `  int statusTombol = param.asInt(); // 1 atau 0\n`;
+                        
+                        let logicAdded = false;
+                        if (ifCode) {
+                            blynkWriteFunctions += `  if (statusTombol == 1) {\n`;
+                            blynkWriteFunctions += `    // Kode custom untuk aksi ON\n    ${ifCode.split('\n').map(line => `    ${line}`).join('\n')}\n`;
+                            blynkWriteFunctions += `  }`;
+                            logicAdded = true;
                         }
-                        blynkWriteFunctions += `    // Kode custom dari form\n    ${elseCode.split('\n').map(line => `    ${line}`).join('\n')}\n`;
-                        blynkWriteFunctions += `  }\n`;
-                    } else if (ifCode) { // Tutup kurung if jika else kosong
-                        blynkWriteFunctions += `\n`;
+
+                        if (elseCode) {
+                            if (logicAdded) { // if 'ifCode' was added before
+                                blynkWriteFunctions += ` else if (statusTombol == 0) {\n`;
+                            } else {
+                                blynkWriteFunctions += `  if (statusTombol == 0) {\n`;
+                            }
+                            blynkWriteFunctions += `    // Kode custom untuk aksi OFF\n    ${elseCode.split('\n').map(line => `    ${line}`).join('\n')}\n`;
+                            blynkWriteFunctions += `  }`;
+                        }
+                        blynkWriteFunctions += `\n}\n`;
                     }
-
-
-                    blynkWriteFunctions += `}\n`;
+                    
+                    // --- DELAY LOGIC ---
+                    if (delayHidup && delayMati && !isNaN(delayHidup) && !isNaN(delayMati)) {
+                        globalVars += `\n// Variabel global untuk delay non-blocking di Pin ${pin}\n`;
+                        globalVars += `unsigned long previousMillis_${pin} = 0;\n`;
+                        globalVars += `long onTime_${pin} = ${delayHidup};\n`;
+                        globalVars += `long offTime_${pin} = ${delayMati};\n`;
+                        globalVars += `int ledState_${pin} = ${kondisi === 'none' ? 'LOW' : kondisi};\n`;
+                        
+                        loopCode += `\n  // Logika delay non-blocking untuk Pin ${pin}\n`;
+                        loopCode += `  unsigned long currentMillis = millis();\n`;
+                        loopCode += `  if (ledState_${pin} == HIGH && currentMillis - previousMillis_${pin} >= onTime_${pin}) {\n`;
+                        loopCode += `    ledState_${pin} = LOW;\n`;
+                        loopCode += `    previousMillis_${pin} = currentMillis;\n`;
+                        loopCode += `    digitalWrite(${pin}, ledState_${pin});\n`;
+                        loopCode += `  } else if (ledState_${pin} == LOW && currentMillis - previousMillis_${pin} >= offTime_${pin}) {\n`;
+                        loopCode += `    ledState_${pin} = HIGH;\n`;
+                        loopCode += `    previousMillis_${pin} = currentMillis;\n`;
+                        loopCode += `    digitalWrite(${pin}, ledState_${pin});\n`;
+                        loopCode += `  }\n`;
+                    }
                 }
                 
-                // --- DELAY LOGIC ---
-                // Hanya jika kedua nilai delay diisi dan valid
-                if (delayHidup && delayMati && !isNaN(delayHidup) && !isNaN(delayMati)) {
-                    globalVars += `\n// Variabel global untuk delay non-blocking di Pin ${pin}\n`;
-                    globalVars += `unsigned long previousMillis_${pin} = 0;\n`;
-                    globalVars += `long onTime_${pin} = ${delayHidup};\n`;
-                    globalVars += `long offTime_${pin} = ${delayMati};\n`;
-                    globalVars += `int ledState_${pin} = ${kondisi === 'none' ? 'LOW' : kondisi};\n`;
-                    
-                    loopCode += `\n  // Logika delay non-blocking untuk Pin ${pin}\n`;
-                    loopCode += `  unsigned long currentMillis = millis();\n`;
-                    loopCode += `  if (ledState_${pin} == HIGH && currentMillis - previousMillis_${pin} >= onTime_${pin}) {\n`;
-                    loopCode += `    ledState_${pin} = LOW;\n`;
-                    loopCode += `    previousMillis_${pin} = currentMillis;\n`;
-                    loopCode += `    digitalWrite(${pin}, ledState_${pin});\n`;
-                    loopCode += `  } else if (ledState_${pin} == LOW && currentMillis - previousMillis_${pin} >= offTime_${pin}) {\n`;
-                    loopCode += `    ledState_${pin} = HIGH;\n`;
-                    loopCode += `    previousMillis_${pin} = currentMillis;\n`;
-                    loopCode += `    digitalWrite(${pin}, ledState_${pin});\n`;
-                    loopCode += `  }\n`;
-                }
-            }
-            
-            // --- GABUNGKAN SEMUA JADI SATU ---
-            const finalCode = `/*
+                // --- GABUNGKAN SEMUA JADI SATU ---
+                const finalCode = `/*
  * Kode ini digenerate secara otomatis oleh Blynk Code Generator
  * Pastikan library ESP8266WiFi dan Blynk sudah terinstall.
  */
@@ -218,15 +233,17 @@
 #include <ESP8266WiFi.h>
 #include <BlynkSimpleEsp8266.h>
 
-// Kredensial kamu
-char auth[] = "${authToken}";
+// Kredensial - Dari Aplikasi Blynk
+${blynkDefine ? blynkDefine + '\n' : ''}#define BLYNK_AUTH_TOKEN "${authToken || 'YOUR_AUTH_TOKEN'}"
+
+// Kredensial WiFi
 char ssid[] = "${ssid}";
 char pass[] = "${pass}";
 ${globalVars}
 void setup()
 {
 ${setupCode}
-  Blynk.begin(auth, ssid, pass);
+  Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);
 }
 
 void loop()
@@ -235,9 +252,9 @@ ${loopCode}
 }
 ${blynkWriteFunctions}`;
 
-            document.getElementById('codeOutput').textContent = finalCode;
-        }
-
+                document.getElementById('codeOutput').textContent = finalCode;
+            }
+        });
     </script>
 </body>
 </html>
