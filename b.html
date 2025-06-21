@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blynk Data Generator</title>
+    <style>
+        :root {
+            --senja-kuning: #FFC107;
+            --senja-oranye: #FF9800;
+            --senja-merah: #F44336;
+            --senja-ungu: #9C27B0;
+            --teks-terang: #FFFFFF;
+            --teks-gelap: #333333;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--senja-ungu), var(--senja-merah), var(--senja-oranye), var(--senja-kuning));
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--teks-terang);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--senja-oranye), var(--senja-merah));
+            text-align: center;
+            padding: 30px 20px;
+        }
+        
+        h1 {
+            font-size: 48px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 20px;
+            opacity: 0.9;
+        }
+        
+        .button-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 30px;
+        }
+        
+        .button-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 20px;
+            width: 100%;
+            max-width: 350px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .button-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .button-title {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--senja-kuning);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            color: var(--teks-gelap);
+        }
+        
+        select:focus, input:focus {
+            outline: 2px solid var(--senja-kuning);
+        }
+        
+        .status-text {
+            text-align: center;
+            font-size: 16px;
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+        
+        .delay-controls {
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.3);
+        }
+        
+        .code-output {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.6;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px;
+        }
+        
+        button {
+            padding: 12px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(to right, var(--senja-oranye), var(--senja-merah));
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        button:active {
+            transform: translateY(1px);
+        }
+        
+        .copy-btn {
+            background: linear-gradient(to right, #4CAF50, #2E7D32);
+        }
+        
+        .reset-btn {
+            background: linear-gradient(to right, #2196F3, #0D47A1);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+            opacity: 0.8;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .button-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .button-card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>BLYNK DATA</h1>
+            <p class="subtitle">Generator Kode Kontrol ESP8266 untuk Blynk</p>
+        </header>
+        
+        <div class="button-grid">
+            <div class="button-card">
+                <h2 class="button-title">BUTTON 1</h2>
+                <div class="form-group">
+                    <label for="initial-state1">Kondisi Awal:</label>
+                    <select id="initial-state1" class="state-select">
+                        <option value="LOW">Mati (LOW)</option>
+                        <option value="HIGH">Hidup (HIGH)</option>
+                    </select>
+                </div>
+                <div class="status-text" id="status1">Jika Button 1 aktif, status: Mati (LOW)</div>
+                
+                <div class="delay-controls">
+                    <div class="form-group">
+                        <label for="delay-on1">Delay Hidup (detik):</label>
+                        <input type="number" id="delay-on1" min="0" placeholder="Kosongkan jika tidak perlu">
+                    </div>
+                    <div class="form-group">
+                        <label for="delay-off1">Delay Mati (detik):</label>
+                        <input type="number" id="delay-off1" min="0" placeholder="Kosongkan jika tidak perlu">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="button-card">
+                <h2 class="button-title">BUTTON 2</h2>
+                <div class="form-group">
+                    <label for="initial-state2">Kondisi Awal:</label>
+                    <select id="initial-state2" class="state-select">
+                        <option value="LOW">Mati (LOW)</option>
+                        <option value="HIGH">Hidup (HIGH)</option>
+                    </select>
+                </div>
+                <div class="status-text" id="status2">Jika Button 2 aktif, status: Mati (LOW)</div>
+                
+                <div class="delay-controls">
+                    <div class="form-group">
+                        <label for="delay-on2">Delay Hidup (detik):</label>
+                        <input type="number" id="delay-on2" min="0" placeholder="Kosongkan jika tidak perlu">
+                    </div>
+                    <div class="form-group">
+                        <label for="delay-off2">Delay Mati (detik):</label>
+                        <input type="number" id="delay-off2" min="0" placeholder="Kosongkan jika tidak perlu">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="button-card">
+                <h2 class="button-title">BUTTON 3</h2>
+                <div class="form-group">
+                    <label for="initial-state3">Kondisi Awal:</label>
+                    <select id="initial-state3" class="state-select">
+                        <option value="LOW">Mati (LOW)</option>
+                        <option value="HIGH">Hidup (HIGH)</option>
+                    </select>
+                </div>
+                <div class="status-text" id="status3">Jika Button 3 aktif, status: Mati (LOW)</div>
+                
+                <div class="delay-controls">
+                    <div class="form-group">
+                        <label for="delay-on3">Delay Hidup (detik):</label>
+                        <input type="number" id="delay-on3" min="0" placeholder="Kosongkan jika tidak perlu">
+                    </div>
+                    <div class="form-group">
+                        <label for="delay-off3">Delay Mati (detik):</label>
+                        <input type="number" id="delay-off3" min="0" placeholder="Kosongkan jika tidak perlu">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="code-output" id="codeOutput">#define BLYNK_PRINT Serial
+
+// Template ID dan Autentikasi
+#define BLYNK_TEMPLATE_ID "TMPL6w4jiYreI"
+#define BLYNK_TEMPLATE_NAME "test1"
+#define BLYNK_AUTH_TOKEN "k7_HlnKr3-XyB0Lzgl2-XXRvNfTQB1AC"
+
+#include &lt;ESP8266WiFi.h&gt;
+#include &lt;BlynkSimpleEsp8266.h&gt;
+
+// Kredensial WiFi
+char ssid[] = "AB-45 Rumah Jahit Hilly";
+char pass[] = "1234567890";
+
+void setup() {
+  Serial.begin(9600);
+  Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);
+}
+
+void loop() {
+  Blynk.run();
+}</div>
+        
+        <div class="action-buttons">
+            <button class="copy-btn" onclick="copyCode()">Salin Kode</button>
+            <button class="reset-btn" onclick="resetForm()">Reset Form</button>
+        </div>
+        
+        <footer>
+            <p>Blynk Data Generator &copy; 2023 | Kontrol ESP8266 melalui Blynk dengan Mudah</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Pin untuk setiap button
+        const buttonPins = {
+            1: "D0",
+            2: "D1",
+            3: "D2"
+        };
+        
+        // Virtual pin untuk setiap button
+        const virtualPins = {
+            1: "V1",
+            2: "V2",
+            3: "V3"
+        };
+        
+        // Update status text ketika kondisi awal diubah
+        document.querySelectorAll('.state-select').forEach((select, index) => {
+            const buttonNum = index + 1;
+            select.addEventListener('change', function() {
+                const status = this.value === 'HIGH' ? 'Hidup (HIGH)' : 'Mati (LOW)';
+                document.getElementById(`status${buttonNum}`).textContent = 
+                    `Jika Button ${buttonNum} aktif, status: ${status}`;
+                generateCode();
+            });
+        });
+        
+        // Update code ketika input delay berubah
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('input', generateCode);
+        });
+        
+        // Fungsi untuk menghasilkan kode
+        function generateCode() {
+            let code = `#define BLYNK_PRINT Serial\n\n`;
+            code += `// Template ID dan Autentikasi\n`;
+            code += `#define BLYNK_TEMPLATE_ID "TMPL6w4jiYreI"\n`;
+            code += `#define BLYNK_TEMPLATE_NAME "test1"\n`;
+            code += `#define BLYNK_AUTH_TOKEN "k7_HlnKr3-XyB0Lzgl2-XXRvNfTQB1AC"\n\n`;
+            code += `#include <ESP8266WiFi.h>\n`;
+            code += `#include <BlynkSimpleEsp8266.h>\n\n`;
+            code += `// Kredensial WiFi\n`;
+            code += `char ssid[] = "AB-45 Rumah Jahit Hilly";\n`;
+            code += `char pass[] = "1234567890";\n\n`;
+            
+            // Tambahkan deklarasi pin jika ada yang dikonfigurasi
+            let hasPinConfig = false;
+            for (let i = 1; i <= 3; i++) {
+                const initialState = document.getElementById(`initial-state${i}`).value;
+                if (initialState) {
+                    hasPinConfig = true;
+                    break;
+                }
+            }
+            
+            if (hasPinConfig) {
+                code += `// Deklarasi Pin\n`;
+                for (let i = 1; i <= 3; i++) {
+                    const initialState = document.getElementById(`initial-state${i}`).value;
+                    if (initialState) {
+                        code += `const int BUTTON${i}_PIN = ${buttonPins[i]};\n`;
+                    }
+                }
+                code += `\n`;
+            }
+            
+            code += `void setup() {\n`;
+            code += `  Serial.begin(9600);\n`;
+            
+            // Tambahkan inisialisasi pin di setup
+            for (let i = 1; i <= 3; i++) {
+                const initialState = document.getElementById(`initial-state${i}`).value;
+                if (initialState) {
+                    code += `  pinMode(BUTTON${i}_PIN, OUTPUT);\n`;
+                    code += `  digitalWrite(BUTTON${i}_PIN, ${initialState});\n`;
+                }
+            }
+            
+            code += `  Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);\n`;
+            code += `}\n\n`;
+            code += `void loop() {\n`;
+            code += `  Blynk.run();\n`;
+            code += `}\n\n`;
+            
+            // Tambahkan fungsi BLYNK_WRITE untuk setiap button yang dikonfigurasi
+            for (let i = 1; i <= 3; i++) {
+                const initialState = document.getElementById(`initial-state${i}`).value;
+                const delayOn = document.getElementById(`delay-on${i}`).value;
+                const delayOff = document.getElementById(`delay-off${i}`).value;
+                
+                if (initialState) {
+                    code += `// Kontrol untuk Button ${i} (${virtualPins[i]})\n`;
+                    code += `BLYNK_WRITE(${virtualPins[i]}) {\n`;
+                    code += `  int status = param.asInt();\n\n`;
+                    
+                    // Logika untuk kondisi tanpa delay
+                    if (!delayOn && !delayOff) {
+                        code += `  if (status == 1) {\n`;
+                        code += `    digitalWrite(BUTTON${i}_PIN, HIGH);\n`;
+                        code += `  } else {\n`;
+                        code += `    digitalWrite(BUTTON${i}_PIN, LOW);\n`;
+                        code += `  }\n`;
+                    } 
+                    // Logika dengan delay hidup
+                    else if (delayOn && !delayOff) {
+                        code += `  if (status == 1) {\n`;
+                        code += `    digitalWrite(BUTTON${i}_PIN, HIGH);\n`;
+                        code += `    delay(${delayOn} * 1000);\n`;
+                        code += `    digitalWrite(BUTTON${i}_PIN, LOW);\n`;
+                        code += `  }\n`;
+                    }
+                    // Logika dengan delay mati
+                    else if (!delayOn && delayOff) {
+                        code += `  if (status == 1) {\n`;
+                        code += `    digitalWrite(BUTTON${i}_PIN, HIGH);\n`;
+                        code += `  } else {\n`;
+                        code += `    digitalWrite(BUTTON${i}_PIN, LOW);\n`;
+                        code += `    delay(${delayOff} * 1000);\n`;
+                        code += `    digitalWrite(BUTTON${i}_PIN, HIGH);\n`;
+                        code += `  }\n`;
+                    }
+                    // Logika dengan kedua delay
+                    else if (delayOn && delayOff) {
+                        code += `  if (status == 1) {\n`;
+                        code += `    digitalWrite(BUTTON${i}_PIN, HIGH);\n`;
+                        code += `    delay(${delayOn} * 1000);\n`;
+                        code += `    digitalWrite(BUTTON${i}_PIN, LOW);\n`;
+                        code += `    delay(${delayOff} * 1000);\n`;
+                        code += `    digitalWrite(BUTTON${i}_PIN, HIGH);\n`;
+                        code += `  }\n`;
+                    }
+                    
+                    code += `}\n\n`;
+                }
+            }
+            
+            document.getElementById('codeOutput').textContent = code;
+        }
+        
+        // Fungsi untuk menyalin kode ke clipboard
+        function copyCode() {
+            const codeOutput = document.getElementById('codeOutput');
+            const textArea = document.createElement('textarea');
+            textArea.value = codeOutput.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            // Tampilkan feedback
+            const copyBtn = document.querySelector('.copy-btn');
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = '✓ Kode Disalin!';
+            setTimeout(() => {
+                copyBtn.textContent = originalText;
+            }, 2000);
+        }
+        
+        // Fungsi untuk mereset form
+        function resetForm() {
+            document.querySelectorAll('.state-select').forEach(select => {
+                select.value = 'LOW';
+            });
+            
+            document.querySelectorAll('input[type="number"]').forEach(input => {
+                input.value = '';
+            });
+            
+            document.querySelectorAll('.status-text').forEach((status, index) => {
+                status.textContent = `Jika Button ${index + 1} aktif, status: Mati (LOW)`;
+            });
+            
+            generateCode();
+            
+            // Tampilkan feedback
+            const resetBtn = document.querySelector('.reset-btn');
+            const originalText = resetBtn.textContent;
+            resetBtn.textContent = '✓ Form Direset!';
+            setTimeout(() => {
+                resetBtn.textContent = originalText;
+            }, 2000);
+        }
+        
+        // Inisialisasi
+        generateCode();
+    </script>
+</body>
+</html>
