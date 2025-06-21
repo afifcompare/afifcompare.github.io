@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Comparison Website</title>
+    <style>
+        :root {
+            --primary-color: #00ffcc;
+            --secondary-color: #ff66cc;
+            --bg-dark: #121212;
+            --bg-card: #1e1e1e;
+            --text-light: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5vh;
+        }
+        
+        .container {
+            width: 90vw;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .header-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 5vh;
+            text-align: center;
+        }
+        
+        .title {
+            font-size: clamp(2rem, 6vw, 4rem);
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 1.2;
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+        }
+        
+        .main-buttons {
+            display: grid;
+            grid-template-areas: 
+                "gemini deepseek"
+                "chatgpt chatgpt";
+            justify-items: center;
+            gap: 2vh;
+            margin-bottom: 4vh;
+            width: 100%;
+        }
+        
+        .diagonal-buttons {
+            display: flex;
+            perspective: 1000px;
+            gap: 5vw;
+        }
+        
+        .button {
+            background-color: var(--bg-card);
+            color: var(--text-light);
+            border: 2px solid var(--primary-color);
+            border-radius: 50px;
+            padding: 2vh 4vw;
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            min-width: 20vw;
+            max-width: 30vw;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .button.gemini {
+            transform: rotate(-5deg);
+            grid-area: gemini;
+        }
+        
+        .button.deepseek {
+            transform: rotate(5deg);
+            grid-area: deepseek;
+        }
+        
+        .button.chatgpt {
+            transform: rotate(0deg);
+            grid-area: chatgpt;
+            margin-top: 3vh;
+        }
+        
+        .button:hover {
+            background-color: var(--primary-color);
+            color: var(--bg-dark);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 255, 204, 0.2);
+        }
+        
+        .mystery-section {
+            margin-top: 5vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .mystery-button {
+            background-color: var(--bg-card);
+            color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            min-width: 50vw;
+            padding: 2vh 4vw;
+        }
+        
+        .mystery-button:hover {
+            background-color: var(--secondary-color);
+            color: var(--bg-dark);
+            box-shadow: 0 10px 20px rgba(255, 102, 204, 0.2);
+        }
+        
+        .reveal-text {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: var(--secondary-color);
+            margin-top: 3vh;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease-out;
+            text-align: center;
+        }
+        
+        .reveal-text.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        @media (max-width: 768px) {
+            .main-buttons {
+                grid-template-areas: 
+                    "gemini"
+                    "deepseek"
+                    "chatgpt";
+                gap: 2vh;
+            }
+            
+            .button {
+                min-width: 60vw;
+                max-width: 80vw;
+                transform: none !important;
+            }
+            
+            .button:hover {
+                transform: translateY(-5px) scale(1.05) !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-container">
+            <h1 class="title">Hi, this website is to compare AI</h1>
+        </div>
+        
+        <div class="main-buttons">
+            <button class="button gemini" onclick="location.href='a.html'">Gemini</button>
+            <button class="button deepseek" onclick="location.href='b.html'">DeepSeek</button>
+            <button class="button chatgpt" onclick="location.href='c.html'">ChatGPT</button>
+        </div>
+        
+        <div class="mystery-section">
+            <button class="button mystery-button" id="guessButton">
+                You will never guess what AI is using for this website
+            </button>
+            <div class="reveal-text" id="guessText">Blackbox</div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('guessButton').addEventListener('click', function() {
+            const guessText = document.getElementById('guessText');
+            guessText.classList.toggle('show');
+            
+            // Scroll to the revealed text if it's not fully visible
+            setTimeout(() => {
+                if (guessText.classList.contains('show')) {
+                    guessText.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }, 300);
+        });
+    </script>
+</body>
+</html>
