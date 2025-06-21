@@ -4,256 +4,723 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blynk Code Generator</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        body {
+        :root {
+            --senja-kuning: #FFC107;
+            --senja-oranye: #FF9800;
+            --senja-merah: #F44336;
+            --senja-ungu: #9C27B0;
+            --teks-terang: #FFFFFF;
+            --teks-gelap: #333333;
+            --kartu-bg: rgba(255, 255, 255, 0.15);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
             font-family: 'Inter', sans-serif;
         }
-        .title-font {
-            font-family: 'Poppins', sans-serif;
+        
+        body {
+            background: linear-gradient(135deg, var(--senja-ungu), var(--senja-merah), var(--senja-oranye), var(--senja-kuning));
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--teks-terang);
+            background-attachment: fixed;
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
         }
-        .text-shadow {
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--senja-oranye), var(--senja-merah));
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="0,0 100,0 100,100" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: 100% 100%;
+            opacity: 0.3;
+        }
+        
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.5rem;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            padding: 30px;
+        }
+        
+        @media (max-width: 1024px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .panel {
+            background: var(--kartu-bg);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .panel-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--senja-kuning);
+            color: #ffdd40;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .panel-title i {
+            font-size: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 25px; /* Perbesar jarak antar form */
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 12px; /* Perbesar jarak bawah label */
+            font-weight: 500;
+            font-size: 1.15rem; /* Perbesar ukuran font label */
+        }
+        
+        select, input, textarea {
+            width: 100%;
+            padding: 16px 20px; /* Perbesar padding */
+            border-radius: 12px; /* Perbesar radius */
+            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem; /* Perbesar ukuran font */
+            color: var(--teks-gelap);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        /* Hilangkan spinner pada input number */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+        
+        textarea {
+            min-height: 150px; /* Perbesar tinggi textarea */
+            resize: vertical;
+            font-size: 1.05rem; /* Sesuaikan ukuran font */
+        }
+        
+        select:focus, input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--senja-kuning);
+            box-shadow: 0 0 0 4px rgba(255, 193, 7, 0.3); /* Perbesar shadow */
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px; /* Perbesar jarak antar kartu */
+            margin-top: 25px;
+        }
+        
+        @media (max-width: 1200px) {
+            .button-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .button-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .button-card {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            padding: 25px; /* Perbesar padding kartu */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s;
+        }
+        
+        .button-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .button-title {
+            text-align: center;
+            font-size: 1.5rem; /* Perbesar ukuran font judul */
+            margin-bottom: 20px; /* Perbesar jarak bawah judul */
+            padding-bottom: 15px; /* Perbesar padding bawah */
+            border-bottom: 2px solid var(--senja-oranye);
+            color: #ffcc80;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .button-title i {
+            font-size: 1.3rem; /* Perbesar ukuran ikon */
+        }
+        
+        .code-output {
+            background: rgba(0, 0, 0, 0.75);
+            border-radius: 12px;
+            padding: 25px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            font-size: 15px;
+            line-height: 1.7;
+            height: 100%;
+            max-height: 600px;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 20px; /* Perbesar jarak antar tombol */
+            justify-content: flex-end;
+            margin-top: 30px; /* Perbesar jarak atas */
+        }
+        
+        button {
+            padding: 16px 35px; /* Perbesar ukuran tombol */
+            font-size: 1.2rem; /* Perbesar ukuran font tombol */
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 12px; /* Perbesar jarak ikon dan teks */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .copy-btn {
+            background: linear-gradient(to right, #4CAF50, #2E7D32);
+        }
+        
+        .generate-btn {
+            background: linear-gradient(to right, var(--senja-oranye), var(--senja-merah));
+        }
+        
+        .reset-btn {
+            background: linear-gradient(to right, #2196F3, #0D47A1);
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        button:active {
+            transform: translateY(1px);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 25px;
+            font-size: 1rem;
+            opacity: 0.9;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 18px 28px; /* Perbesar ukuran notifikasi */
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform: translateX(200%);
+            transition: transform 0.4s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 12px; /* Perbesar jarak ikon dan teks */
+            font-size: 1.1rem; /* Perbesar ukuran font */
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .highlight {
+            color: #ffcc00;
+            font-weight: 600;
+        }
+        
+        .icon-box {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px; /* Perbesar ukuran ikon box */
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            margin-right: 15px; /* Perbesar jarak kanan */
+        }
+        
+        .delay-controls {
+            margin-top: 20px; /* Perbesar jarak atas */
+            padding-top: 20px; /* Perbesar padding atas */
+            border-top: 1px dashed rgba(255, 255, 255, 0.3);
+        }
+        
+        .delay-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px; /* Perbesar jarak antar input */
+        }
+        
+        /* Perbesar ukuran ikon Font Awesome */
+        i.fas, i.far {
+            font-size: 1.4rem;
+        }
+        
+        /* Style khusus untuk layar lebar (laptop/PC) */
+        @media (min-width: 1024px) {
+            .content {
+                grid-template-columns: 1.2fr 0.8fr; /* Lebih banyak ruang untuk form */
+            }
+            
+            .button-grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 kolom untuk layar lebar */
+            }
+            
+            .form-group {
+                margin-bottom: 30px; /* Lebih banyak ruang antar elemen */
+            }
+            
+            label {
+                font-size: 1.2rem; /* Lebih besar untuk layar lebar */
+            }
+            
+            select, input, textarea {
+                padding: 18px 22px; /* Lebih besar untuk layar lebar */
+                font-size: 1.15rem;
+            }
+            
+            textarea {
+                min-height: 180px; /* Lebih tinggi untuk layar lebar */
+            }
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-yellow-400 via-orange-500 to-red-600 min-h-screen text-white">
-
-    <div class="container mx-auto p-4 md:p-8">
-
-        <!-- JUDUL UTAMA -->
-        <header class="text-center my-8">
-            <h1 class="text-5xl font-bold text-gray-100 text-shadow title-font">BLYNK DATA</h1>
+<body>
+    <div class="container">
+        <header>
+            <h1><span class="icon-box"><i class="fas fa-cloud"></i></span>BLYNK CODE GENERATOR</h1>
+            <p class="subtitle">Buat kode kontrol ESP8266 untuk Blynk dengan mudah dan cepat. Hasilkan kode yang siap pakai hanya dengan beberapa klik!</p>
         </header>
-
-        <main class="space-y-8">
-
-            <!-- BAGIAN KREDENSIAL -->
-            <div class="bg-black bg-opacity-30 p-6 rounded-xl shadow-lg">
-                <h2 class="text-2xl font-bold mb-4 border-b-2 border-orange-400 pb-2">Kredensial & Pengaturan Awal</h2>
-                <div class="space-y-4">
-                    <!-- Area untuk define tambahan dari Blynk -->
-                    <div>
-                        <label for="blynkDefine" class="block mb-2 text-sm font-medium text-gray-300">Tempel Kredensial Tambahan (ID & Nama Template)</label>
-                        <textarea id="blynkDefine" rows="3" class="w-full p-3 bg-gray-700 bg-opacity-50 rounded-lg border border-gray-500 font-mono text-sm focus:ring-2 focus:ring-orange-400 focus:outline-none" placeholder="#define BLYNK_TEMPLATE_ID &quot;TMPLxxxx&quot;&#10;#define BLYNK_TEMPLATE_NAME &quot;Device&quot;"></textarea>
-                    </div>
-                     <!-- Input untuk Auth Token -->
-                    <div>
-                         <label for="authToken" class="block mb-2 text-sm font-medium text-gray-300">Blynk Auth Token</label>
-                        <input type="text" id="authToken" placeholder="Masukkan Auth Token di sini..." class="w-full p-3 bg-gray-700 bg-opacity-50 rounded-lg border border-gray-500 focus:ring-2 focus:ring-orange-400 focus:outline-none" value="">
-                    </div>
-                     <!-- Input untuk WiFi -->
-                    <div>
-                         <label for="ssid" class="block mb-2 text-sm font-medium text-gray-300">Nama WiFi (SSID)</label>
-                        <input type="text" id="ssid" placeholder="Nama WiFi (SSID)" class="w-full p-3 bg-gray-700 bg-opacity-50 rounded-lg border border-gray-500 focus:ring-2 focus:ring-orange-400 focus:outline-none" value="">
-                    </div>
-                    <div>
-                         <label for="password" class="block mb-2 text-sm font-medium text-gray-300">Password WiFi</label>
-                        <input type="password" id="password" placeholder="Password WiFi" class="w-full p-3 bg-gray-700 bg-opacity-50 rounded-lg border border-gray-500 focus:ring-2 focus:ring-orange-400 focus:outline-none" value="">
-                    </div>
+        
+        <div class="content">
+            <div class="panel">
+                <h2 class="panel-title"><i class="fas fa-cog"></i> Pengaturan Utama</h2>
+                
+                <div class="form-group">
+                    <label for="blynkDefine"><i class="fas fa-code"></i> Kredensial Tambahan (ID & Nama Template)</label>
+                    <textarea id="blynkDefine" class="form-input" placeholder="#define BLYNK_TEMPLATE_ID &quot;TMPLxxxx&quot;&#10;#define BLYNK_TEMPLATE_NAME &quot;Device&quot;"></textarea>
                 </div>
-            </div>
-
-            <!-- BAGIAN KONFIGURASI TOMBOL -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Looping untuk 3 Tombol -->
-                <script>
-                    for (let i = 1; i <= 3; i++) {
-                        document.write(`
-                        <div class="bg-black bg-opacity-30 p-6 rounded-xl shadow-lg space-y-4 flex flex-col">
-                            <h3 class="text-xl font-bold text-center text-orange-300">BUTTON ${i} (Pin D${i} / V${i})</h3>
-                            
-                            <div>
-                                <label for="kondisi${i}" class="block mb-1 text-sm font-medium text-gray-300">Kondisi Awal</label>
-                                <select id="kondisi${i}" class="w-full p-2 bg-gray-700 bg-opacity-50 rounded-lg border border-gray-500 focus:ring-2 focus:ring-orange-400 focus:outline-none">
-                                    <option value="none">Tidak Digunakan</option>
-                                    <option value="LOW">LOW (Mati)</option>
-                                    <option value="HIGH">HIGH (Hidup)</option>
-                                </select>
-                            </div>
-
-                            <div class="text-center text-sm text-gray-300">
-                                <p>Aksi berdasarkan status tombol dari Blynk</p>
-                            </div>
-
-                            <div class="flex-grow flex flex-col">
-                                <label for="ifCode${i}" class="block mb-1 text-sm font-medium text-gray-300">Aksi saat ON (status == 1)</label>
-                                <textarea id="ifCode${i}" rows="3" class="w-full p-2 bg-gray-700 bg-opacity-50 rounded-lg border border-gray-500 font-mono text-sm focus:ring-2 focus:ring-orange-400 focus:outline-none flex-grow" placeholder="// Contoh:\n// digitalWrite(D${i}, HIGH);"></textarea>
-                            </div>
-
-                            <div class="flex-grow flex flex-col">
-                                <label for="elseCode${i}" class="block mb-1 text-sm font-medium text-gray-300">Aksi saat OFF (status == 0)</label>
-                                <textarea id="elseCode${i}" rows="3" class="w-full p-2 bg-gray-700 bg-opacity-50 rounded-lg border border-gray-500 font-mono text-sm focus:ring-2 focus:ring-orange-400 focus:outline-none flex-grow" placeholder="// Contoh:\n// digitalWrite(D${i}, LOW);"></textarea>
-                            </div>
-
-                            <div class="border-t border-gray-600 pt-4">
-                                <label class="block mb-2 text-sm font-medium text-gray-300">Otomatisasi Delay (Opsional)</label>
-                                <div class="grid grid-cols-2 gap-2">
-                                    <input type="number" id="delayHidup${i}" placeholder="Delay Hidup (ms)" class="w-full p-2 bg-gray-700 bg-opacity-50 rounded-lg border border-gray-500 focus:ring-2 focus:ring-orange-400 focus:outline-none">
-                                    <input type="number" id="delayMati${i}" placeholder="Delay Mati (ms)" class="w-full p-2 bg-gray-700 bg-opacity-50 rounded-lg border border-gray-500 focus:ring-2 focus:ring-orange-400 focus:outline-none">
-                                </div>
+                
+                <div class="form-group">
+                    <label for="authToken"><i class="fas fa-key"></i> Blynk Auth Token</label>
+                    <input type="text" id="authToken" placeholder="Masukkan Auth Token di sini..." value="">
+                </div>
+                
+                <div class="form-group">
+                    <label for="ssid"><i class="fas fa-wifi"></i> Nama WiFi (SSID)</label>
+                    <input type="text" id="ssid" placeholder="Nama WiFi (SSID)" value="">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password"><i class="fas fa-lock"></i> Password WiFi</label>
+                    <input type="password" id="password" placeholder="Password WiFi" value="">
+                </div>
+                
+                <h2 class="panel-title" style="margin-top: 40px;"><i class="fas fa-sliders-h"></i> Konfigurasi Tombol</h2>
+                
+                <div class="button-grid">
+                    <div class="button-card">
+                        <h3 class="button-title"><i class="fas fa-toggle-on"></i> BUTTON 1</h3>
+                        
+                        <div class="form-group">
+                            <label for="kondisi1">Kondisi Awal</label>
+                            <select id="kondisi1" class="form-input">
+                                <option value="none">Tidak Digunakan</option>
+                                <option value="LOW">LOW (Mati)</option>
+                                <option value="HIGH" selected>HIGH (Hidup)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ifCode1">Aksi saat ON (status == 1)</label>
+                            <textarea id="ifCode1" class="form-input" placeholder="// Contoh:&#10;digitalWrite(D0, HIGH);">digitalWrite(D0, HIGH);</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="elseCode1">Aksi saat OFF (status == 0)</label>
+                            <textarea id="elseCode1" class="form-input" placeholder="// Contoh:&#10;digitalWrite(D0, LOW);">digitalWrite(D0, LOW);</textarea>
+                        </div>
+                        
+                        <div class="delay-controls">
+                            <label><i class="fas fa-clock"></i> Otomatisasi Delay</label>
+                            <div class="delay-grid">
+                                <input type="number" id="delayHidup1" placeholder="Delay Hidup (ms)" class="form-input" value="1000">
+                                <input type="number" id="delayMati1" placeholder="Delay Mati (ms)" class="form-input" value="500">
                             </div>
                         </div>
-                        `);
-                    }
-                </script>
-            </div>
-            
-            <!-- BAGIAN HASIL KODE -->
-            <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-2xl font-bold text-orange-300">Hasil Kode (ESP8266)</h2>
-                    <button id="copyBtn" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200">
-                        Salin Kode
+                    </div>
+                    
+                    <div class="button-card">
+                        <h3 class="button-title"><i class="fas fa-toggle-on"></i> BUTTON 2</h3>
+                        
+                        <div class="form-group">
+                            <label for="kondisi2">Kondisi Awal</label>
+                            <select id="kondisi2" class="form-input">
+                                <option value="none">Tidak Digunakan</option>
+                                <option value="LOW" selected>LOW (Mati)</option>
+                                <option value="HIGH">HIGH (Hidup)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ifCode2">Aksi saat ON (status == 1)</label>
+                            <textarea id="ifCode2" class="form-input" placeholder="// Contoh:&#10;digitalWrite(D1, HIGH);">digitalWrite(D1, HIGH);</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="elseCode2">Aksi saat OFF (status == 0)</label>
+                            <textarea id="elseCode2" class="form-input" placeholder="// Contoh:&#10;digitalWrite(D1, LOW);">digitalWrite(D1, LOW);</textarea>
+                        </div>
+                        
+                        <div class="delay-controls">
+                            <label><i class="fas fa-clock"></i> Otomatisasi Delay</label>
+                            <div class="delay-grid">
+                                <input type="number" id="delayHidup2" placeholder="Delay Hidup (ms)" class="form-input">
+                                <input type="number" id="delayMati2" placeholder="Delay Mati (ms)" class="form-input">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="button-card">
+                        <h3 class="button-title"><i class="fas fa-toggle-on"></i> BUTTON 3</h3>
+                        
+                        <div class="form-group">
+                            <label for="kondisi3">Kondisi Awal</label>
+                            <select id="kondisi3" class="form-input">
+                                <option value="none" selected>Tidak Digunakan</option>
+                                <option value="LOW">LOW (Mati)</option>
+                                <option value="HIGH">HIGH (Hidup)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ifCode3">Aksi saat ON (status == 1)</label>
+                            <textarea id="ifCode3" class="form-input" placeholder="// Contoh:&#10;digitalWrite(D2, HIGH);"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="elseCode3">Aksi saat OFF (status == 0)</label>
+                            <textarea id="elseCode3" class="form-input" placeholder="// Contoh:&#10;digitalWrite(D2, LOW);"></textarea>
+                        </div>
+                        
+                        <div class="delay-controls">
+                            <label><i class="fas fa-clock"></i> Otomatisasi Delay</label>
+                            <div class="delay-grid">
+                                <input type="number" id="delayHidup3" placeholder="Delay Hidup (ms)" class="form-input">
+                                <input type="number" id="delayMati3" placeholder="Delay Mati (ms)" class="form-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="reset-btn" onclick="resetForm()">
+                        <i class="fas fa-redo"></i> Reset Form
+                    </button>
+                    <button class="generate-btn" onclick="generateCode()">
+                        <i class="fas fa-bolt"></i> Generate Code
                     </button>
                 </div>
-                <pre class="w-full h-96 overflow-auto bg-gray-900 p-4 rounded-lg"><code id="codeOutput" class="language-cpp text-sm font-mono whitespace-pre-wrap"></code></pre>
             </div>
-        </main>
-
-        <footer class="text-center text-gray-300 text-sm py-8">
-            Dibuat untuk mempermudah petualangan IoT-mu.
+            
+            <div class="panel">
+                <div class="code-header">
+                    <h2 class="panel-title"><i class="fas fa-code"></i> Hasil Kode</h2>
+                    <button class="copy-btn" onclick="copyCode()">
+                        <i class="fas fa-copy"></i> Salin Kode
+                    </button>
+                </div>
+                
+                <div class="code-output" id="codeOutput">// Kode akan muncul di sini setelah Anda mengklik "Generate Code"</div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Blynk Code Generator &copy; 2023 | Dibuat untuk mempermudah petualangan IoT-mu</p>
         </footer>
+    </div>
+    
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i> <span id="notificationText">Kode berhasil disalin!</span>
     </div>
 
     <script>
-        // PASTIKAN SEMUA SKRIP DIJALANKAN SETELAH HALAMAN SELESAI DIMUAT
-        document.addEventListener('DOMContentLoaded', function() {
-
-            const inputs = document.querySelectorAll('input, select, textarea');
-            inputs.forEach(input => {
-                input.addEventListener('input', generateCode);
-            });
-
-            // Generate code on initial load
+        // Fungsi untuk menampilkan notifikasi
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
+            notificationText.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Fungsi untuk menyalin kode
+        function copyCode() {
+            const codeOutput = document.getElementById('codeOutput');
+            const textArea = document.createElement('textarea');
+            textArea.value = codeOutput.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            showNotification('Kode berhasil disalin ke clipboard!');
+        }
+        
+        // Fungsi untuk mereset form
+        function resetForm() {
+            document.getElementById('blynkDefine').value = '#define BLYNK_TEMPLATE_ID "TMPL6w4jiYreI"\n#define BLYNK_TEMPLATE_NAME "test1"';
+            document.getElementById('authToken').value = 'k7_HlnKr3-XyB0Lzgl2-XXRvNfTQB1AC';
+            document.getElementById('ssid').value = 'AB-45 Rumah Jahit Hilly';
+            document.getElementById('password').value = '1234567890';
+            
+            // Reset button 1
+            document.getElementById('kondisi1').value = 'HIGH';
+            document.getElementById('ifCode1').value = 'digitalWrite(D0, HIGH);';
+            document.getElementById('elseCode1').value = 'digitalWrite(D0, LOW);';
+            document.getElementById('delayHidup1').value = '1000';
+            document.getElementById('delayMati1').value = '500';
+            
+            // Reset button 2
+            document.getElementById('kondisi2').value = 'LOW';
+            document.getElementById('ifCode2').value = 'digitalWrite(D1, HIGH);';
+            document.getElementById('elseCode2').value = 'digitalWrite(D1, LOW);';
+            document.getElementById('delayHidup2').value = '';
+            document.getElementById('delayMati2').value = '';
+            
+            // Reset button 3
+            document.getElementById('kondisi3').value = 'none';
+            document.getElementById('ifCode3').value = '';
+            document.getElementById('elseCode3').value = '';
+            document.getElementById('delayHidup3').value = '';
+            document.getElementById('delayMati3').value = '';
+            
             generateCode();
-
-            // Copy button functionality
-            document.getElementById('copyBtn').addEventListener('click', () => {
-                const codeToCopy = document.getElementById('codeOutput').textContent;
-                navigator.clipboard.writeText(codeToCopy).then(() => {
-                    const btn = document.getElementById('copyBtn');
-                    btn.textContent = 'Berhasil Disalin!';
-                    btn.classList.remove('bg-green-600', 'hover:bg-green-700');
-                    btn.classList.add('bg-blue-600');
-                    setTimeout(() => {
-                        btn.textContent = 'Salin Kode';
-                        btn.classList.remove('bg-blue-600');
-                        btn.classList.add('bg-green-600', 'hover:bg-green-700');
-                    }, 2000);
-                });
-            });
-
-            function generateCode() {
-                // Mengambil nilai dari semua input
-                const blynkDefine = document.getElementById('blynkDefine').value.trim();
-                const authToken = document.getElementById('authToken').value.trim();
-                const ssid = document.getElementById('ssid').value || "YOUR_SSID";
-                const pass = document.getElementById('password').value || "YOUR_PASSWORD";
-
-                let globalVars = '';
-                let setupCode = '  // Debug console\n  Serial.begin(9600);\n';
-                let loopCode = '  Blynk.run();\n';
-                let blynkWriteFunctions = '';
-
-                for (let i = 1; i <= 3; i++) {
-                    const kondisi = document.getElementById(`kondisi${i}`).value;
-                    const ifCode = document.getElementById(`ifCode${i}`).value.trim();
-                    const elseCode = document.getElementById(`elseCode${i}`).value.trim();
-                    const delayHidup = document.getElementById(`delayHidup${i}`).value;
-                    const delayMati = document.getElementById(`delayMati${i}`).value;
-                    const pin = `D${i}`;
-                    const vPin = `V${i}`;
-
-                    if (kondisi !== 'none') {
-                        // --- SETUP CODE ---
-                        setupCode += `\n  // Pengaturan untuk Pin ${pin}\n`;
-                        setupCode += `  pinMode(${pin}, OUTPUT);\n`;
-                        setupCode += `  digitalWrite(${pin}, ${kondisi});\n`;
-
-                        // --- BLYNK_WRITE FUNCTION ---
-                        blynkWriteFunctions += `\n// Fungsi ini berjalan saat ada interaksi dengan tombol di ${vPin}\n`;
-                        blynkWriteFunctions += `BLYNK_WRITE(${vPin}) {\n`;
-                        blynkWriteFunctions += `  int statusTombol = param.asInt(); // 1 atau 0\n`;
+            showNotification('Form telah direset ke nilai default!');
+        }
+        
+        // Fungsi untuk menghasilkan kode
+        function generateCode() {
+            // Mengambil nilai dari semua input
+            const blynkDefine = document.getElementById('blynkDefine').value.trim();
+            const authToken = document.getElementById('authToken').value.trim();
+            const ssid = document.getElementById('ssid').value || "YOUR_SSID";
+            const pass = document.getElementById('password').value || "YOUR_PASSWORD";
+            
+            let globalVars = '';
+            let setupCode = '  // Debug console\n  Serial.begin(9600);\n';
+            let loopCode = '  Blynk.run();\n';
+            let blynkWriteFunctions = '';
+            
+            // Mapping pin untuk setiap tombol
+            const pinMapping = {
+                1: "D0",
+                2: "D1",
+                3: "D2"
+            };
+            
+            const vPinMapping = {
+                1: "V1",
+                2: "V2",
+                3: "V3"
+            };
+            
+            for (let i = 1; i <= 3; i++) {
+                const kondisi = document.getElementById(`kondisi${i}`).value;
+                const ifCode = document.getElementById(`ifCode${i}`).value.trim();
+                const elseCode = document.getElementById(`elseCode${i}`).value.trim();
+                const delayHidup = document.getElementById(`delayHidup${i}`).value;
+                const delayMati = document.getElementById(`delayMati${i}`).value;
+                const pin = pinMapping[i];
+                const vPin = vPinMapping[i];
+                
+                if (kondisi !== 'none') {
+                    // --- SETUP CODE ---
+                    setupCode += `\n  // Pengaturan untuk Pin ${pin} (Button ${i})\n`;
+                    setupCode += `  pinMode(${pin}, OUTPUT);\n`;
+                    setupCode += `  digitalWrite(${pin}, ${kondisi});\n`;
+                    
+                    // --- BLYNK_WRITE FUNCTION ---
+                    blynkWriteFunctions += `\n// Kontrol untuk Button ${i} (${vPin})\n`;
+                    blynkWriteFunctions += `BLYNK_WRITE(${vPin}) {\n`;
+                    blynkWriteFunctions += `  int statusTombol = param.asInt(); // 1 = ON, 0 = OFF\n\n`;
+                    
+                    blynkWriteFunctions += `  if (statusTombol == 1) {\n`;
+                    if (ifCode) {
+                        blynkWriteFunctions += `    // Kode saat tombol ON\n    ${ifCode.split('\n').join('\n    ')}\n`;
+                    } else {
+                        blynkWriteFunctions += `    digitalWrite(${pin}, HIGH);\n`;
+                    }
+                    blynkWriteFunctions += `  } else {\n`;
+                    if (elseCode) {
+                        blynkWriteFunctions += `    // Kode saat tombol OFF\n    ${elseCode.split('\n').join('\n    ')}\n`;
+                    } else {
+                        blynkWriteFunctions += `    digitalWrite(${pin}, LOW);\n`;
+                    }
+                    blynkWriteFunctions += `  }\n`;
+                    
+                    // Tambahkan logika delay jika diisi
+                    if (delayHidup || delayMati) {
+                        blynkWriteFunctions += `\n  // Logika delay untuk Button ${i}\n`;
                         
-                        let logicAdded = false;
-                        if (ifCode) {
+                        if (delayHidup) {
                             blynkWriteFunctions += `  if (statusTombol == 1) {\n`;
-                            blynkWriteFunctions += `    // Kode custom untuk aksi ON\n    ${ifCode.split('\n').map(line => `    ${line}`).join('\n')}\n`;
-                            blynkWriteFunctions += `  }`;
-                            logicAdded = true;
+                            blynkWriteFunctions += `    delay(${delayHidup});\n`;
+                            blynkWriteFunctions += `  }\n`;
                         }
-
-                        if (elseCode) {
-                            if (logicAdded) { // if 'ifCode' was added before
-                                blynkWriteFunctions += ` else if (statusTombol == 0) {\n`;
-                            } else {
-                                blynkWriteFunctions += `  if (statusTombol == 0) {\n`;
-                            }
-                            blynkWriteFunctions += `    // Kode custom untuk aksi OFF\n    ${elseCode.split('\n').map(line => `    ${line}`).join('\n')}\n`;
-                            blynkWriteFunctions += `  }`;
+                        
+                        if (delayMati) {
+                            blynkWriteFunctions += `  if (statusTombol == 0) {\n`;
+                            blynkWriteFunctions += `    delay(${delayMati});\n`;
+                            blynkWriteFunctions += `  }\n`;
                         }
-                        blynkWriteFunctions += `\n}\n`;
                     }
                     
-                    // --- DELAY LOGIC ---
-                    if (delayHidup && delayMati && !isNaN(delayHidup) && !isNaN(delayMati)) {
-                        globalVars += `\n// Variabel global untuk delay non-blocking di Pin ${pin}\n`;
-                        globalVars += `unsigned long previousMillis_${pin} = 0;\n`;
-                        globalVars += `long onTime_${pin} = ${delayHidup};\n`;
-                        globalVars += `long offTime_${pin} = ${delayMati};\n`;
-                        globalVars += `int ledState_${pin} = ${kondisi === 'none' ? 'LOW' : kondisi};\n`;
-                        
-                        loopCode += `\n  // Logika delay non-blocking untuk Pin ${pin}\n`;
-                        loopCode += `  unsigned long currentMillis = millis();\n`;
-                        loopCode += `  if (ledState_${pin} == HIGH && currentMillis - previousMillis_${pin} >= onTime_${pin}) {\n`;
-                        loopCode += `    ledState_${pin} = LOW;\n`;
-                        loopCode += `    previousMillis_${pin} = currentMillis;\n`;
-                        loopCode += `    digitalWrite(${pin}, ledState_${pin});\n`;
-                        loopCode += `  } else if (ledState_${pin} == LOW && currentMillis - previousMillis_${pin} >= offTime_${pin}) {\n`;
-                        loopCode += `    ledState_${pin} = HIGH;\n`;
-                        loopCode += `    previousMillis_${pin} = currentMillis;\n`;
-                        loopCode += `    digitalWrite(${pin}, ledState_${pin});\n`;
-                        loopCode += `  }\n`;
-                    }
+                    blynkWriteFunctions += `}\n`;
                 }
-                
-                // --- GABUNGKAN SEMUA JADI SATU ---
-                const finalCode = `/*
- * Kode ini digenerate secara otomatis oleh Blynk Code Generator
+            }
+            
+            // --- GABUNGKAN SEMUA JADI SATU ---
+            const finalCode = `/*
+ * Kode ESP8266 untuk Blynk
+ * Dibuat secara otomatis oleh Blynk Code Generator
  * Pastikan library ESP8266WiFi dan Blynk sudah terinstall.
  */
 
 /* Comment this out to disable prints and save space */
 #define BLYNK_PRINT Serial
 
+${blynkDefine ? blynkDefine + '\n' : ''}#define BLYNK_AUTH_TOKEN "${authToken || 'YOUR_AUTH_TOKEN'}"
+
 #include <ESP8266WiFi.h>
 #include <BlynkSimpleEsp8266.h>
-
-// Kredensial - Dari Aplikasi Blynk
-${blynkDefine ? blynkDefine + '\n' : ''}#define BLYNK_AUTH_TOKEN "${authToken || 'YOUR_AUTH_TOKEN'}"
 
 // Kredensial WiFi
 char ssid[] = "${ssid}";
 char pass[] = "${pass}";
 ${globalVars}
-void setup()
-{
+
+void setup() {
 ${setupCode}
+  // Inisialisasi koneksi Blynk
   Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);
 }
 
-void loop()
-{
+void loop() {
 ${loopCode}
 }
 ${blynkWriteFunctions}`;
-
-                document.getElementById('codeOutput').textContent = finalCode;
-            }
+            
+            document.getElementById('codeOutput').textContent = finalCode;
+            showNotification('Kode berhasil digenerate!');
+        }
+        
+        // Generate kode saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            generateCode();
         });
     </script>
 </body>
