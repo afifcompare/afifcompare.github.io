@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blynk Data</title>
+  <style>
+    body {
+      background-color: #FFD580; /* Kuning senja */
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    .title {
+      font-size: 48px;
+      color: #f0f0f0; /* Putih keabu-abuan */
+      margin-bottom: 40px;
+    }
+    .button-row {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .button-group {
+      background: #fff8dc;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+    }
+    .button-group input[type="text"] {
+      width: 100px;
+      padding: 5px;
+      margin-top: 5px;
+    }
+    .delay-group {
+      margin-top: 10px;
+    }
+    .info-text {
+      font-size: 16px;
+      margin-top: 10px;
+      color: #333;
+    }
+    textarea {
+      margin-top: 30px;
+      width: 90%;
+      height: 300px;
+      font-family: monospace;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="title">BLYNK DATA</div>
+
+  <div class="button-row">
+    <div class="button-group">
+      <div><strong>Button 1</strong></div>
+      <input type="text" placeholder="Kondisi awal (HIGH/LOW)" id="btn1-cond">
+      <div class="info-text">Jika button == 1</div>
+      <input type="text" placeholder="If Action" id="btn1-if">
+      <input type="text" placeholder="Elif Action" id="btn1-elif">
+      <input type="text" placeholder="Else Action" id="btn1-else">
+      <div class="delay-group">
+        <input type="text" placeholder="Delay HIGH (ms)" id="btn1-delay-high">
+        <input type="text" placeholder="Delay LOW (ms)" id="btn1-delay-low">
+      </div>
+    </div>
+
+    <div class="button-group">
+      <div><strong>Button 2</strong></div>
+      <input type="text" placeholder="Kondisi awal (HIGH/LOW)" id="btn2-cond">
+      <div class="info-text">Jika button == 2</div>
+      <input type="text" placeholder="If Action" id="btn2-if">
+      <input type="text" placeholder="Elif Action" id="btn2-elif">
+      <input type="text" placeholder="Else Action" id="btn2-else">
+      <div class="delay-group">
+        <input type="text" placeholder="Delay HIGH (ms)" id="btn2-delay-high">
+        <input type="text" placeholder="Delay LOW (ms)" id="btn2-delay-low">
+      </div>
+    </div>
+
+    <div class="button-group">
+      <div><strong>Button 3</strong></div>
+      <input type="text" placeholder="Kondisi awal (HIGH/LOW)" id="btn3-cond">
+      <div class="info-text">Jika button == 3</div>
+      <input type="text" placeholder="If Action" id="btn3-if">
+      <input type="text" placeholder="Elif Action" id="btn3-elif">
+      <input type="text" placeholder="Else Action" id="btn3-else">
+      <div class="delay-group">
+        <input type="text" placeholder="Delay HIGH (ms)" id="btn3-delay-high">
+        <input type="text" placeholder="Delay LOW (ms)" id="btn3-delay-low">
+      </div>
+    </div>
+  </div>
+
+  <button onclick="generateCode()">Generate Code</button>
+
+  <textarea id="output" placeholder="Generated code will appear here..."></textarea>
+
+  <script>
+    function generateCode() {
+      let code = `#define BLYNK_PRINT Serial\n\n#include <ESP8266WiFi.h>\n#include <BlynkSimpleEsp8266.h>\n\nchar ssid[] = \"AB-45 Rumah Jahit Hilly\";\nchar pass[] = \"1234567890\";\n\nvoid setup() {\n  Serial.begin(9600);\n  Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);\n`;
+
+      for (let i = 1; i <= 3; i++) {
+        const pin = `D${i - 1}`;
+        const cond = document.getElementById(`btn${i}-cond`).value.trim().toUpperCase();
+        if (cond === "HIGH" || cond === "LOW") {
+          code += `  pinMode(${pin}, OUTPUT);\n  digitalWrite(${pin}, ${cond});\n`;
+        }
+      }
+
+      code += `}\n\nvoid loop() {\n  Blynk.run();\n`;
+
+      for (let i = 1; i <= 3; i++) {
+        const dHigh = document.getElementById(`btn${i}-delay-high`).value.trim();
+        const dLow = document.getElementById(`btn${i}-delay-low`).value.trim();
+        if (dHigh && dLow) {
+          code += `  // Delay logic for Button ${i}\n  digitalWrite(D${i - 1}, HIGH);\n  delay(${dHigh});\n  digitalWrite(D${i - 1}, LOW);\n  delay(${dLow});\n`;
+        }
+      }
+      code += `}\n`;
+
+      for (let i = 1; i <= 3; i++) {
+        const cond = document.getElementById(`btn${i}-cond`).value.trim().toUpperCase();
+        const ifText = document.getElementById(`btn${i}-if`).value.trim();
+        const elifText = document.getElementById(`btn${i}-elif`).value.trim();
+        const elseText = document.getElementById(`btn${i}-else`).value.trim();
+
+        if (cond === "HIGH" || cond === "LOW") {
+          code += `\nBLYNK_WRITE(V${i}) {\n  int statusTombol = param.asInt();\n  if (statusTombol == 1) {\n    ${ifText}\n  }`;
+          if (elifText) {
+            code += ` else if (statusTombol == 0) {\n    ${elifText}\n  }`;
+          }
+          code += ` else {\n    ${elseText}\n  }\n}`;
+        }
+      }
+
+      document.getElementById('output').value = code;
+    }
+  </script>
+</body>
+</html>
