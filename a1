@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Syntax Recall Helper</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #E0E0E0;
+        }
+        .code-block {
+            font-family: 'Fira Code', monospace;
+        }
+        .animated-gradient {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #2d3748; /* gray-800 */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4a5568; /* gray-600 */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #718096; /* gray-500 */
+        }
+    </style>
+</head>
+<body class="animated-gradient">
+
+    <div class="flex flex-col md:flex-row min-h-screen bg-gray-900 bg-opacity-80 backdrop-blur-sm">
+        
+        <!-- Kolom Kiri: Pustaka Sintaks -->
+        <div class="w-full md:w-1/2 p-4 md:p-6 space-y-6 overflow-y-auto">
+            <h1 class="text-3xl font-bold text-white text-center mb-4">Pustaka Sintaks JavaScript</h1>
+
+            <!-- Card: DOM Manipulation -->
+            <div class="bg-gray-800 bg-opacity-70 p-5 rounded-xl shadow-lg">
+                <h2 class="text-xl font-bold text-orange-300 mb-3">1. DOM: document.getElementById()</h2>
+                <p class="text-sm text-gray-300 mb-4">Mengambil elemen HTML berdasarkan atribut `id`-nya untuk dimanipulasi. Ini adalah dasar dari interaktivitas web.</p>
+                
+                <div class="space-y-4">
+                    <!-- Contoh 1: Mengubah Teks -->
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-200">Mengubah isi teks (innerHTML)</span>
+                            <button onclick="runGetElementByIdText()" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Jalankan</button>
+                        </div>
+                        <pre class="code-block bg-gray-900 text-cyan-300 p-3 rounded-md mt-2 text-sm">document.getElementById("demo-text").innerHTML = "Teks diubah!";</pre>
+                    </div>
+                    <!-- Contoh 2: Mengubah Style -->
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-200">Mengubah warna (style)</span>
+                            <button onclick="runGetElementByIdStyle()" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Jalankan</button>
+                        </div>
+                        <pre class="code-block bg-gray-900 text-cyan-300 p-3 rounded-md mt-2 text-sm">document.getElementById("demo-style").style.color = "lightgreen";</pre>
+                    </div>
+                     <!-- Contoh 3: Mengubah Atribut Gambar -->
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-200">Mengubah sumber gambar (src)</span>
+                            <button onclick="runGetElementByIdImage()" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Jalankan</button>
+                        </div>
+                        <pre class="code-block bg-gray-900 text-cyan-300 p-3 rounded-md mt-2 text-sm">document.getElementById("demo-img").src = "URL_GAMBAR_BARU";</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card: Deklarasi Variabel -->
+            <div class="bg-gray-800 bg-opacity-70 p-5 rounded-xl shadow-lg">
+                <h2 class="text-xl font-bold text-green-300 mb-3">2. Deklarasi Variabel: var, let, const</h2>
+                <p class="text-sm text-gray-300 mb-4">
+                    <strong class="text-yellow-300">let:</strong> Scope-nya block, nilainya bisa diubah. <br>
+                    <strong class="text-yellow-300">const:</strong> Scope-nya block, nilainya konstan (tidak bisa diubah setelah dideklarasi). <br>
+                    <strong class="text-yellow-300">var:</strong> Scope-nya function (versi lama, sebaiknya gunakan let/const).
+                </p>
+                <button onclick="runDeclarations()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Tampilkan Perbedaan Scope</button>
+            </div>
+
+            <!-- Card: Control Flow -->
+            <div class="bg-gray-800 bg-opacity-70 p-5 rounded-xl shadow-lg">
+                <h2 class="text-xl font-bold text-blue-300 mb-3">3. Alur Kontrol: if, switch, for</h2>
+                <p class="text-sm text-gray-300 mb-4">Mengontrol alur eksekusi program berdasarkan kondisi atau perulangan.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <button onclick="runIf()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Jalankan 'if'</button>
+                    <button onclick="runSwitch()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Jalankan 'switch'</button>
+                    <button onclick="runFor()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Jalankan 'for'</button>
+                </div>
+            </div>
+
+            <!-- Card: Function & try...catch -->
+            <div class="bg-gray-800 bg-opacity-70 p-5 rounded-xl shadow-lg">
+                <h2 class="text-xl font-bold text-purple-300 mb-3">4. Function & Error Handling</h2>
+                <p class="text-sm text-gray-300 mb-4">
+                    <strong class="text-yellow-300">Function:</strong> Blok kode yang dapat digunakan kembali. `return` untuk mengeluarkan hasil. <br>
+                    <strong class="text-yellow-300">try...catch:</strong> Menangani error agar program tidak berhenti total.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <button onclick="runFunctionReturn()" class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Jalankan Function</button>
+                    <button onclick="runTryCatch()" class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Jalankan try...catch</button>
+                </div>
+            </div>
+
+            <!-- Card: Objects -->
+            <div class="bg-gray-800 bg-opacity-70 p-5 rounded-xl shadow-lg space-y-4">
+                <h2 class="text-xl font-bold text-red-300 mb-3">5. Objects</h2>
+                <p class="text-sm text-gray-300 mb-4">Kumpulan pasangan `key: value` untuk menyimpan data yang terstruktur.</p>
+                
+                <!-- Akses Property -->
+                <button onclick="runAccessProperty()" class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Cara Mengakses Properti</button>
+                
+                <!-- Menambah Property -->
+                <div>
+                    <h3 class="font-semibold text-red-200">Menambah Properti Baru</h3>
+                    <div class="flex gap-2 mt-2">
+                        <input id="propKey" type="text" placeholder="Nama Properti (key)" class="bg-gray-700 text-white p-2 rounded-md w-1/2 focus:outline-none focus:ring-2 focus:ring-red-400">
+                        <input id="propValue" type="text" placeholder="Nilai Properti (value)" class="bg-gray-700 text-white p-2 rounded-md w-1/2 focus:outline-none focus:ring-2 focus:ring-red-400">
+                    </div>
+                    <button onclick="runAddProperty()" class="w-full mt-2 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Tambah & Tampilkan</button>
+                </div>
+
+                <!-- Menghapus Property -->
+                 <div>
+                    <h3 class="font-semibold text-red-200">Menghapus Properti</h3>
+                    <div class="flex gap-2 mt-2">
+                        <input id="deleteKey" type="text" placeholder="Nama Properti untuk dihapus" class="bg-gray-700 text-white p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-red-400">
+                    </div>
+                    <button onclick="runDeleteProperty()" class="w-full mt-2 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Hapus & Tampilkan</button>
+                </div>
+
+                <!-- Nested Object & Constructor -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <button onclick="runNestedObject()" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Nested Object</button>
+                    <button onclick="runObjectConstructor()" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Object Constructor</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Kolom Kanan: Output -->
+        <div class="w-full md:w-1/2 p-4 md:p-6 bg-gray-900 flex flex-col">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold text-white">Area Output / Playground</h2>
+                <button onclick="clearOutput()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Bersihkan</button>
+            </div>
+            <div id="output-area" class="flex-grow bg-gray-800 rounded-xl p-4 overflow-y-auto space-y-4">
+                <p class="text-gray-400 text-center">Tekan tombol 'Jalankan' di sebelah kiri untuk melihat hasilnya di sini.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const outputArea = document.getElementById('output-area');
+        let personObject = {
+            nama: "Afif",
+            umur: 9,
+            hobi: "working"
+        };
+
+        // Helper function untuk menampilkan output
+        function displayOutput(title, content, code) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'bg-gray-700 p-4 rounded-lg animate-fade-in';
+            
+            let htmlContent = `<h3 class="text-lg font-bold text-orange-300 mb-2 border-b border-gray-600 pb-2">${title}</h3>`;
+            htmlContent += `<div class="text-gray-200">${content}</div>`;
+            
+            if (code) {
+                htmlContent += `<h4 class="text-sm font-semibold text-cyan-400 mt-4 mb-2">Kode yang dijalankan:</h4>`;
+                htmlContent += `<pre class="code-block bg-gray-900 text-cyan-300 p-3 rounded-md text-sm">${escapeHtml(code)}</pre>`;
+            }
+            
+            wrapper.innerHTML = htmlContent;
+            outputArea.appendChild(wrapper);
+            outputArea.scrollTop = outputArea.scrollHeight; // Auto scroll to bottom
+        }
+        
+        function clearOutput() {
+            outputArea.innerHTML = '<p class="text-gray-400 text-center">Area output dibersihkan. Siap untuk demo selanjutnya!</p>';
+        }
+
+        function escapeHtml(unsafe) {
+            return unsafe
+                 .replace(/&/g, "&amp;")
+                 .replace(/</g, "&lt;")
+                 .replace(/>/g, "&gt;")
+                 .replace(/"/g, "&quot;")
+                 .replace(/'/g, "&#039;");
+        }
+
+        // --- Logika untuk setiap tombol ---
+
+        // 1. getElementById
+        function runGetElementByIdText() {
+            const id = 'demo-text-' + Date.now();
+            const content = `<p id="${id}">Ini adalah teks awal.</p><p class="mt-2">Setelah 1 detik, teks di atas akan berubah.</p>`;
+            const code = `const el = document.getElementById('${id}');\nel.innerHTML = 'Teks ini telah diubah oleh JavaScript!';`;
+            displayOutput('1.1. getElementById - Ubah Teks', content, code);
+            setTimeout(() => {
+                const el = document.getElementById(id);
+                if(el) el.innerHTML = '<b>Teks ini telah diubah oleh JavaScript!</b>';
+            }, 1000);
+        }
+
+        function runGetElementByIdStyle() {
+            const id = 'demo-style-' + Date.now();
+            const content = `<div id="${id}" class="p-4 bg-blue-800 rounded-md transition-all duration-500">Box ini akan berubah warna dan teksnya.</div>`;
+            const code = `const el = document.getElementById('${id}');\nel.style.backgroundColor = '#78350f'; // orange-900\nel.style.color = '#fcd34d'; // amber-300\nel.textContent = 'Warnaku berubah!';`;
+            displayOutput('1.2. getElementById - Ubah Style', content, code);
+            setTimeout(() => {
+                const el = document.getElementById(id);
+                if(el) {
+                    el.style.backgroundColor = '#78350f';
+                    el.style.color = '#fcd34d';
+                    el.textContent = 'Warnaku berubah!';
+                }
+            }, 1000);
+        }
+
+        function runGetElementByIdImage() {
+            const id = 'demo-img-' + Date.now();
+            const placeholder1 = 'https://placehold.co/300x150/374151/E0E0E0?text=Gambar+Awal';
+            const placeholder2 = 'https://placehold.co/300x150/1e40af/FFFFFF?text=Gambar+Baru!';
+            const content = `<img id="${id}" src="${placeholder1}" alt="placeholder" class="rounded-md max-w-full h-auto">`;
+            const code = `document.getElementById('${id}').src = '${placeholder2}';`;
+            displayOutput('1.3. getElementById - Ubah Gambar', content, code);
+             setTimeout(() => {
+                const el = document.getElementById(id);
+                if(el) {
+                    el.src = placeholder2;
+                }
+            }, 1000);
+        }
+
+        // 2. Declarations
+        function runDeclarations() {
+            let content = `
+                <p><b>let (Block Scope):</b></p>
+                <p>Variabel 'let' hanya ada di dalam block-nya (misal: di dalam if). Mencoba akses dari luar akan error.</p>
+                <p class="mt-2"><b>const (Block Scope, Read-only):</b></p>
+                <p>Seperti 'let', tapi nilainya tidak bisa diubah setelah diinisialisasi.</p>
+                <p class="mt-2"><b>var (Function Scope):</b></p>
+                <p>Variabel 'var' bisa diakses di mana saja dalam function, bahkan sebelum dideklarasi (hoisting).</p>
+            `;
+            let code = `
+// Demo LET
+if (true) {
+  let blockScoped = "Hanya ada di sini";
+  console.log(blockScoped); // "Hanya ada di sini"
+}
+// console.log(blockScoped); // Uncaught ReferenceError
+
+// Demo CONST
+const PI = 3.14;
+// PI = 3.14159; // Uncaught TypeError
+
+// Demo VAR
+function testVar() {
+  if (true) {
+    var functionScoped = "Bisa diakses di mana saja";
+  }
+  console.log(functionScoped); // "Bisa diakses di mana saja"
+}
+testVar();
+            `;
+            displayOutput('2. Perbedaan var, let, dan const', content, code);
+        }
+
+        // 3. Control Flow
+        function runIf() {
+            const jam = new Date().getHours();
+            let sapaan;
+            if (jam < 11) {
+                sapaan = "Selamat Pagi!";
+            } else if (jam < 15) {
+                sapaan = "Selamat Siang!";
+            } else if (jam < 19) {
+                sapaan = "Selamat Sore!";
+            } else {
+                sapaan = "Selamat Malam!";
+            }
+            const content = `Jam sekarang adalah ${jam}. Maka, sapaannya: <strong>${sapaan}</strong>`;
+            const code = `
+const jam = new Date().getHours();
+let sapaan;
+if (jam < 11) {
+  sapaan = "Selamat Pagi!";
+} else if (jam < 15) {
+  sapaan = "Selamat Siang!";
+} else {
+  sapaan = "Selamat Malam!";
+}
+// Hasil: ${sapaan}`;
+            displayOutput("3.1. Contoh 'if...else if...else'", content, code);
+        }
+
+        function runSwitch() {
+            const hariKe = new Date().getDay();
+            let namaHari;
+            switch (hariKe) {
+                case 0: namaHari = "Minggu"; break;
+                case 1: namaHari = "Senin"; break;
+                case 2: namaHari = "Selasa"; break;
+                case 3: namaHari = "Rabu"; break;
+                case 4: namaHari = "Kamis"; break;
+                case 5: namaHari = "Jumat"; break;
+                case 6: namaHari = "Sabtu"; break;
+                default: namaHari = "Hari tidak valid";
+            }
+            const content = `Hari ini adalah hari ke-${hariKe} dalam seminggu, yaitu: <strong>${namaHari}</strong>`;
+            const code = `
+const hariKe = new Date().getDay(); // 0 = Minggu, 1 = Senin, ...
+let namaHari;
+switch (hariKe) {
+  case 0: namaHari = "Minggu"; break;
+  case 1: namaHari = "Senin"; break;
+  // ... dan seterusnya
+  default: namaHari = "Tidak valid";
+}
+// Hasil: ${namaHari}`;
+            displayOutput("3.2. Contoh 'switch'", content, code);
+        }
+
+        function runFor() {
+            let listItems = '<div class="grid grid-cols-5 gap-2">';
+            for (let i = 1; i <= 10; i++) {
+                listItems += `<div class="bg-blue-600 text-white text-center p-2 rounded">${i}</div>`;
+            }
+            listItems += '</div>';
+            const content = `Membuat 10 box dengan perulangan 'for':<br>${listItems}`;
+            const code = `
+let html = '';
+for (let i = 1; i <= 10; i++) {
+  html += \`<div>\${i}</div>\`;
+}
+// Hasilnya adalah 10 box di atas`;
+            displayOutput("3.3. Contoh 'for loop'", content, code);
+        }
+
+        // 4. Function & Error Handling
+        function runFunctionReturn() {
+            function perkalian(a, b) {
+                return a * b;
+            }
+            const hasil = perkalian(12, 5);
+            const content = `Fungsi perkalian(12, 5) mengembalikan nilai: <strong>${hasil}</strong>`;
+            const code = `
+function perkalian(a, b) {
+  return a * b;
+}
+const hasil = perkalian(12, 5); // hasil akan berisi 60`;
+            displayOutput("4.1. Function dengan 'return'", content, code);
+        }
+
+        function runTryCatch() {
+            let content;
+            let code = `
+try {
+  // Kita sengaja memanggil fungsi yang tidak ada
+  fungsiYangTidakAda();
+} catch (error) {
+  // Blok catch akan menangkap error tersebut
+  console.log("Error tertangkap!");
+  console.log(error.message); // Menampilkan pesan error
+}`;
+            try {
+                fungsiYangTidakAda();
+            } catch (error) {
+                content = `
+                <p>Program mencoba menjalankan fungsi yang tidak ada.</p>
+                <p>Tanpa 'try...catch', program akan crash.</p>
+                <p class="mt-2">Dengan 'try...catch', error bisa ditangani dengan baik.</p>
+                <p class="mt-2">Pesan error yang ditangkap: <strong class="text-red-400">${error.message}</strong></p>
+                `;
+            }
+            displayOutput("4.2. Menangani Error dengan 'try...catch'", content, code);
+        }
+        
+        // 5. Objects
+        function runAccessProperty() {
+            const x = 'umur';
+            const content = `
+                <p>Object Awal: <code class="code-block">${JSON.stringify(personObject)}</code></p>
+                <p class="mt-2">1. Menggunakan titik (object.property): <strong class="text-yellow-300">${personObject.nama}</strong></p>
+                <p>2. Menggunakan kurung siku (object["property"]): <strong class="text-yellow-300">${personObject["hobi"]}</strong></p>
+                <p>3. Menggunakan ekspresi (object[expression]): <strong class="text-yellow-300">${personObject[x]}</strong> (ekspresi 'x' berisi string 'umur')</p>
+            `;
+            const code = `
+const person = { nama: "Afif", umur: 9, hobi: "working" };
+const x = 'umur';
+
+// 1. Dot notation
+let nama = person.nama; // "Afif"
+
+// 2. Bracket notation (string literal)
+let hobi = person["hobi"]; // "working"
+
+// 3. Bracket notation (variable/expression)
+let umur = person[x]; // 9`;
+            displayOutput("5.1. Mengakses Properti Object", content, code);
+        }
+
+        function runAddProperty() {
+            const key = document.getElementById('propKey').value;
+            const value = document.getElementById('propValue').value;
+            if (!key) {
+                alert("Nama properti tidak boleh kosong!");
+                return;
+            }
+            personObject[key] = value;
+            const content = `
+                <p>Properti <code class="code-block">${key}: "${value}"</code> berhasil ditambahkan.</p>
+                <p class="mt-2">Object sekarang:</p>
+                <pre class="code-block bg-gray-900 p-3 rounded-md mt-2">${JSON.stringify(personObject, null, 2)}</pre>
+            `;
+            const code = `
+// Object awal: ${JSON.stringify({nama: "Afif", umur: 9, hobi: "working"}, null, 2)}
+personObject["${key}"] = "${value}";
+// atau: personObject.${key} = "${value}"; (jika key valid sbg identifier)
+            `;
+            displayOutput("5.2. Menambah Properti Object", content, code);
+        }
+
+        function runDeleteProperty() {
+            const key = document.getElementById('deleteKey').value;
+            if (!key) {
+                alert("Nama properti untuk dihapus tidak boleh kosong!");
+                return;
+            }
+            let content;
+            let code = `delete personObject["${key}"];`;
+            if (key in personObject) {
+                delete personObject[key];
+                content = `
+                    <p>Properti <code class="code-block">${key}</code> berhasil dihapus.</p>
+                    <p class="mt-2">Object sekarang:</p>
+                    <pre class="code-block bg-gray-900 p-3 rounded-md mt-2">${JSON.stringify(personObject, null, 2)}</pre>
+                `;
+            } else {
+                content = `<p>Properti <code class="code-block">${key}</code> tidak ditemukan di dalam object.</p>`;
+            }
+            displayOutput("5.3. Menghapus Properti Object", content, code);
+        }
+
+        function runNestedObject() {
+            const userProfile = {
+                id: 101,
+                username: "webdev_afif",
+                kontak: {
+                    email: "afif@example.com",
+                    telepon: "08123456789"
+                },
+                alamat: {
+                    jalan: "Jl. Merdeka No. 17",
+                    kota: "Jakarta"
+                }
+            };
+            const content = `
+                <p>Object dengan properti object lain di dalamnya (nested).</p>
+                <p>Mengakses email: <strong class="text-yellow-300">${userProfile.kontak.email}</strong></p>
+                <p>Mengakses kota: <strong class="text-yellow-300">${userProfile.alamat.kota}</strong></p>
+                <pre class="code-block bg-gray-900 p-3 rounded-md mt-2">${JSON.stringify(userProfile, null, 2)}</pre>
+            `;
+            const code = `
+const userProfile = {
+  // ...
+  kontak: { email: "...", telepon: "..." },
+  alamat: { jalan: "...", kota: "..." }
+};
+
+let email = userProfile.kontak.email;
+let kota = userProfile.alamat.kota;`;
+            displayOutput("5.4. Nested Objects", content, code);
+        }
+
+        function runObjectConstructor() {
+            // Constructor function
+            function Mobil(merk, model, tahun) {
+                this.merk = merk;
+                this.model = model;
+                this.tahun = tahun;
+                this.info = function() {
+                    return `${this.merk} ${this.model} (${this.tahun})`;
+                }
+            }
+
+            const mobil1 = new Mobil("Toyota", "Avanza", 2022);
+            const mobil2 = new Mobil("Honda", "Brio", 2023);
+
+            const content = `
+                <p>Constructor adalah 'cetakan' untuk membuat object dengan struktur yang sama.</p>
+                <p>Object 1: <strong class="text-yellow-300">${mobil1.info()}</strong></p>
+                <p>Object 2: <strong class="text-yellow-300">${mobil2.info()}</strong></p>
+            `;
+            const code = `
+function Mobil(merk, model, tahun) {
+  this.merk = merk;
+  this.model = model;
+  this.tahun = tahun;
+  this.info = function() { ... };
+}
+
+const mobil1 = new Mobil("Toyota", "Avanza", 2022);
+const mobil2 = new Mobil("Honda", "Brio", 2023);`;
+            displayOutput("5.5. Object Constructor", content, code);
+        }
+
+    </script>
+</body>
+</html>
