@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Syntax Reference</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee, #c2e9fb);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+        
+        .syntax-section {
+            flex: 3;
+            padding: 25px;
+            max-height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .output-section {
+            flex: 2;
+            background: #1e2a3a;
+            padding: 25px;
+            color: #f0f0f0;
+            border-left: 3px solid #3a506b;
+            max-height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #ff7e5f, #feb47b);
+            border-radius: 2px;
+        }
+        
+        .output-title {
+            color: #ff7e5f;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+        
+        .syntax-box {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #3498db;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .syntax-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .syntax-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .syntax-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .run-btn {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .run-btn:hover {
+            background: linear-gradient(135deg, #2980b9, #1a252f);
+            transform: scale(1.05);
+        }
+        
+        .run-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1.05rem;
+            overflow-x: auto;
+            line-height: 1.5;
+        }
+        
+        .explanation {
+            background: #1a252f;
+            color: #bdc3c7;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .output-content {
+            background: #2c3e50;
+            padding: 20px;
+            border-radius: 8px;
+            min-height: 150px;
+            margin-bottom: 25px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            white-space: pre-wrap;
+            overflow-wrap: break-word;
+        }
+        
+        .output-example {
+            background: #34495e;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .output-example h4 {
+            color: #f39c12;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .example-item {
+            background: #3a506b;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .example-item:hover {
+            transform: translateY(-3px);
+            background: #4a6585;
+        }
+        
+        .color-box {
+            height: 80px;
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        @media (max-width: 992px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .output-section {
+                border-left: none;
+                border-top: 3px solid #3a506b;
+            }
+        }
+        
+        /* Syntax specific colors */
+        .syntax-box:nth-child(2) { border-left-color: #e74c3c; }
+        .syntax-box:nth-child(3) { border-left-color: #2ecc71; }
+        .syntax-box:nth-child(4) { border-left-color: #9b59b6; }
+        .syntax-box:nth-child(5) { border-left-color: #f1c40f; }
+        .syntax-box:nth-child(6) { border-left-color: #1abc9c; }
+        .syntax-box:nth-child(7) { border-left-color: #d35400; }
+        .syntax-box:nth-child(8) { border-left-color: #7f8c8d; }
+        .syntax-box:nth-child(9) { border-left-color: #e84393; }
+        .syntax-box:nth-child(10) { border-left-color: #00cec9; }
+        
+        .syntax-box:nth-child(2) .run-btn { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        .syntax-box:nth-child(3) .run-btn { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+        .syntax-box:nth-child(4) .run-btn { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
+        .syntax-box:nth-child(5) .run-btn { background: linear-gradient(135deg, #f1c40f, #f39c12); }
+        .syntax-box:nth-child(6) .run-btn { background: linear-gradient(135deg, #1abc9c, #16a085); }
+        .syntax-box:nth-child(7) .run-btn { background: linear-gradient(135deg, #d35400, #e67e22); }
+        .syntax-box:nth-child(8) .run-btn { background: linear-gradient(135deg, #7f8c8d, #34495e); }
+        .syntax-box:nth-child(9) .run-btn { background: linear-gradient(135deg, #e84393, #fd79a8); }
+        .syntax-box:nth-child(10) .run-btn { background: linear-gradient(135deg, #00cec9, #0984e3); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1><i class="fab fa-js"></i> JavaScript Syntax Reference</h1>
+        <p>Interactive guide with runnable examples for recalling JavaScript syntax and concepts</p>
+    </div>
+    
+    <div class="container">
+        <div class="syntax-section">
+            <h2 class="section-title">JavaScript Syntax Examples</h2>
+            
+            <!-- Document Get Element By Id -->
+            <div class="syntax-box">
+                <div class="syntax-header">
+                    <h3 class="syntax-title">document.getElementById()</h3>
+                    <button class="run-btn" onclick="runGetElementById()"><i class="fas fa-play"></i> Run Example</button>
+                </div>
+                <div class="code-block">
+                    // Mengakses elemen dengan ID tertentu<br>
+                    const element = document.getElementById("demo");<br>
+                    element.innerHTML = "Teks diubah!";<br>
+                    element.style.color = "red";<br>
+                    <br>
+                    // Contoh lainnya:<br>
+                    // document.getElementById("myImage").src = "new_image.jpg";<br>
+                    // document.getElementById("myDiv").style.display = "none";
+                </div>
+                <div class="explanation">
+                    <strong>Penjelasan:</strong> Method <code>document.getElementById()</code> digunakan untuk mengakses elemen HTML berdasarkan ID-nya. Setelah elemen diakses, kita bisa memanipulasi konten, style, atribut, dan properti lainnya.
+                </div>
+            </div>
+            
+            <!-- Variables: var, const, let -->
+            <div class="syntax-box">
+                <div class="syntax-header">
+                    <h3 class="syntax-title">var, const, let</h3>
+                    <button class="run-btn" onclick="runVariables()"><i class="fas fa-play"></i> Run Example</button>
+                </div>
+                <div class="code-block">
+                    // Deklarasi variabel<br>
+                    var nama = "Afif"; // Function-scoped<br>
+                    let umur = 25;     // Block-scoped<br>
+                    const pi = 3.14;   // Nilai konstan<br>
+                    <br>
+                    // Perbedaan scope<br>
+                    if (true) {<br>
+                    &nbsp;&nbsp;var a = 10;<br>
+                    &nbsp;&nbsp;let b = 20;<br>
+                    }<br>
+                    <br>
+                    console.log(a); // 10 (dapat diakses)<br>
+                    console.log(b); // Error: b is not defined
+                </div>
+                <div class="explanation">
+                    <strong>Penjelasan:</strong> 
+                    <ul>
+                        <li><code>var</code>: Function-scoped, bisa di-redeclare</li>
+                        <li><code>let</code>: Block-scoped, tidak bisa di-redeclare</li>
+                        <li><code>const</code>: Block-scoped, nilai tetap (tidak bisa reassign)</li>
+                    </ul>
+                    Gunakan <code>const</code> secara default, <code>let</code> jika perlu reassign, dan hindari <code>var</code>.
+                </div>
+            </div>
+            
+            <!-- If Statement -->
+            <div class="syntax-box">
+                <div class="syntax-header">
+                    <h3 class="syntax-title">if Statement</h3>
+                    <button class="run-btn" onclick="runIfStatement()"><i class="fas fa-play"></i> Run Example</button>
+                </div>
+                <div class="code-block">
+                    const nilai = 85;<br>
+                    <br>
+                    if (nilai >= 90) {<br>
+                    &nbsp;&nbsp;console.log("Grade: A");<br>
+                    } else if (nilai >= 80) {<br>
+                    &nbsp;&nbsp;console.log("Grade: B");<br>
+                    } else if (nilai >= 70) {<br>
+                    &nbsp;&nbsp;console.log("Grade: C");<br>
+                    } else {<br>
+                    &nbsp;&nbsp;console.log("Grade: D");<br>
+                    }
+                </div>
+                <div class="explanation">
+                    <strong>Penjelasan:</strong> Statement <code>if</code> digunakan untuk mengeksekusi blok kode jika kondisi yang diberikan bernilai truthy. <code>else if</code> digunakan untuk kondisi alternatif, dan <code>else</code> untuk semua kondisi lainnya.
+                </div>
+            </div>
+            
+            <!-- Switch Statement -->
+            <div class="syntax-box">
+                <div class="syntax-header">
+                    <h3 class="syntax-title">switch Statement</h3>
+                    <button class="run-btn" onclick="runSwitch()"><i class="fas fa-play"></i> Run Example</button>
+                </div>
+                <div class="code-block">
+                    const hari = "Senin";<br>
+                    let aktivitas;<br>
+                    <br>
+                    switch (hari) {<br>
+                    &nbsp;&nbsp;case "Senin":<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;aktivitas = "Meeting tim";<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+                    &nbsp;&nbsp;case "Rabu":<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;aktivitas = "Presentasi klien";<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+                    &nbsp;&nbsp;case "Jumat":<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;aktivitas = "Review mingguan";<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+                    &nbsp;&nbsp;default:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;aktivitas = "Coding";<br>
+                    }<br>
+                    console.log(`Hari ${hari}: ${aktivitas}`);
+                </div>
+                <div class="explanation">
+                    <strong>Penjelasan:</strong> Statement <code>switch</code> mengevaluasi ekspresi dan mengeksekusi kode yang sesuai dengan case yang cocok. <code>break</code> penting untuk menghentikan eksekusi ke case berikutnya. <code>default</code> dijalankan jika tidak ada case yang cocok.
+                </div>
+            </div>
+            
+            <!-- For Loop -->
+            <div class="syntax-box">
+                <div class="syntax-header">
+                    <h3 class="syntax-title">for Loop</h3>
+                    <button class="run-btn" onclick="runForLoop()"><i class="fas fa-play"></i> Run Example</button>
+                </div>
+                <div class="code-block">
+                    // Loop dasar<br>
+                    for (let i = 0; i < 5; i++) {<br>
+                    &nbsp;&nbsp;console.log(`Iterasi ke-${i}`);<br>
+                    }<br>
+                    <br>
+                    // Loop melalui array<br>
+                    const buah = ["Apel", "Mangga", "Jeruk"];<br>
+                    for (let i = 0; i < buah.length; i++) {<br>
+                    &nbsp;&nbsp;console.log(buah[i]);<br>
+                    }<br>
+                    <br>
+                    // for...of loop<br>
+                    for (const b of buah) {<br>
+                    &nbsp;&nbsp;console.log(b);<br>
+                    }
+                </div>
+                <div class="explanation">
+                    <strong>Penjelasan:</strong> Loop <code>for</code> memiliki tiga bagian: inisialisasi, kondisi, dan increment/decrement. <code>for...of</code> digunakan untuk iterasi elemen array. Ada juga <code>for...in</code> untuk iterasi properti object.
+                </div>
+            </div>
+            
+            <!-- Function -->
+            <div class="syntax-box">
+                <div class="syntax-header">
+                    <h3 class="syntax-title">Function</h3>
+                    <button class="run-btn" onclick="runFunction()"><i class="fas fa-play"></i> Run Example</button>
+                </div>
+                <div class="code-block">
+                    // Deklarasi fungsi<br>
+                    function sapa(nama) {<br>
+                    &nbsp;&nbsp;return `Halo, ${nama}!`;<br>
+                    }<br>
+                    <br>
+                    // Ekspresi fungsi<br>
+                    const tambah = function(a, b) {<br>
+                    &nbsp;&nbsp;return a + b;<br>
+                    };<br>
+                    <br>
+                    // Arrow function<br>
+                    const kali = (a, b) => a * b;<br>
+                    <br>
+                    console.log(sapa("Budi"));<br>
+                    console.log(tambah(5, 3));<br>
+                    console.log(kali(4, 6));
+                </div>
+                <div class="explanation">
+                    <strong>Penjelasan:</strong> Fungsi adalah blok kode yang dapat dipanggil berulang kali. Ada tiga cara mendefinisikan fungsi: 
+                    <ol>
+                        <li>Deklarasi fungsi: <code>function name() {}</code></li>
+                        <li>Ekspresi fungsi: <code>const name = function() {}</code></li>
+                        <li>Arrow function: <code>const name = () => {}</code></li>
+                    </ol>
+                </div>
+            </div>
+            
+            <!-- Return Statement -->
+            <div class="syntax-box">
+                <div class="syntax-header">
+                    <h3 class="syntax-title">return Statement</h3>
+                    <button class="run-btn" onclick="runReturn()"><i class="fas fa-play"></i> Run Example</button>
+                </div>
+                <div class="code-block">
+                    function cekGenap(angka) {<br>
+                    &nbsp;&nbsp;if (angka % 2 === 0) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return true;<br>
+                    &nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;return false;<br>
+                    }<br>
+                    <br>
+                    function hitungLuas(panjang, lebar) {<br>
+                    &nbsp;&nbsp;return panjang * lebar;<br>
+                    }<br>
+                    <br>
+                    console.log(cekGenap(4)); // true<br>
+                    console.log(cekGenap(7)); // false<br>
+                    console.log(hitungLuas(5, 4)); // 20
+                </div>
+                <div class="explanation">
+                    <strong>Penjelasan:</strong> Statement <code>return</code> menghentikan eksekusi fungsi dan mengembalikan nilai ke pemanggil. Jika tidak ada <code>return</code>, fungsi mengembalikan <code>undefined</code>.
+                </div>
+            </div>
+            
+            <!-- Try Catch -->
+            <div class="syntax-box">
+                <div class="syntax-header">
+                    <h3 class="syntax-title">try...catch</h3>
+                    <button class="run-btn" onclick="runTryCatch()"><i class="fas fa-play"></i> Run Example</button>
+                </div>
+                <div class="code-block">
+                    try {<br>
+                    &nbsp;&nbsp;// Kode yang mungkin menghasilkan error<br>
+                    &nbsp;&nbsp;const hasil = 10 / 0;<br>
+                    &nbsp;&nbsp;if (!isFinite(hasil)) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;throw new Error("Pembagian dengan nol!");<br>
+                    &nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;console.log(hasil);<br>
+                    } catch (error) {<br>
+                    &nbsp;&nbsp;// Menangani error<br>
+                    &nbsp;&nbsp;console.error("Terjadi error:", error.message);<br>
+                    } finally {<br>
+                    &nbsp;&nbsp;// Selalu dijalankan<br>
+                    &nbsp;&nbsp;console.log("Proses selesai");<br>
+                    }
+                </div>
+                <div class="explanation">
+                    <strong>Penjelasan:</strong> Blok <code>try...catch</code> menangani error runtime. Kode dalam <code>try</code> dijalankan, jika terjadi error, eksekusi berpindah ke <code>catch</code>. Blok <code>finally</code> selalu dijalankan, baik terjadi error maupun tidak. <code>throw</code> digunakan untuk melempar error kustom.
+                </div>
+            </div>
+            
+            <!-- Object Access -->
+            <div class="syntax-box">
+                <div class="syntax-header">
+                    <h3 class="syntax-title">Object Property Access</h3>
+                    <button class="run-btn" onclick="runObjectAccess()"><i class="fas fa-play"></i> Run Example</button>
+                </div>
+                <div class="code-block">
+                    const person = {<br>
+                    &nbsp;&nbsp;name: "Afif",<br>
+                    &nbsp;&nbsp;age: 25,<br>
+                    &nbsp;&nbsp;"hobbies": ["coding", "gaming"]<br>
+                    };<br>
+                    <br>
+                    // Dot notation<br>
+                    console.log(person.name); // Afif<br>
+                    <br>
+                    // Bracket notation<br>
+                    console.log(person["age"]); // 25<br>
+                    <br>
+                    // Expression<br>
+                    const prop = "hobbies";<br>
+                    console.log(person[prop]); // ["coding", "gaming"]<br>
+                    <br>
+                    // Menambah properti<br>
+                    person.job = "Developer";<br>
+                    <br>
+                    // Menghapus properti<br>
+                    delete person.age;
+                </div>
+                <div class="explanation">
+                    <strong>Penjelasan:</strong> Ada tiga cara mengakses properti object:
+                    <ol>
+                        <li>Dot notation: <code>object.property</code> (untuk nama properti valid)</li>
+                        <li>Bracket notation: <code>object["property"]</code> (untuk nama dengan spasi/simbol)</li>
+                        <li>Expression: <code>object[expression]</code> (ketika properti disimpan dalam variabel)</li>
+                    </ol>
+                    Properti dapat ditambah dengan assignment dan dihapus dengan <code>delete</code>.
+                </div>
+            </div>
+            
+            <!-- Object Methods and Constructor -->
+            <div class="syntax-box">
+                <div class="syntax-header">
+                    <h3 class="syntax-title">Object Methods & Constructor</h3>
+                    <button class="run-btn" onclick="runObjectMethods()"><i class="fas fa-play"></i> Run Example</button>
+                </div>
+                <div class="code-block">
+                    // Object dengan method<br>
+                    const person = {<br>
+                    &nbsp;&nbsp;firstName: "Afif",<br>
+                    &nbsp;&nbsp;lastName: "Maulana",<br>
+                    &nbsp;&nbsp;fullName: function() {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return `${this.firstName} ${this.lastName}`;<br>
+                    &nbsp;&nbsp;}<br>
+                    };<br>
+                    <br>
+                    console.log(person.fullName());<br>
+                    <br>
+                    // Constructor function<br>
+                    function Person(first, last, age) {<br>
+                    &nbsp;&nbsp;this.firstName = first;<br>
+                    &nbsp;&nbsp;this.lastName = last;<br>
+                    &nbsp;&nbsp;this.age = age;<br>
+                    &nbsp;&nbsp;this.getInfo = function() {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return `${this.firstName} ${this.lastName}, ${age} tahun`;<br>
+                    &nbsp;&nbsp;};<br>
+                    }<br>
+                    <br>
+                    // Membuat instance object<br>
+                    const person1 = new Person("Budi", "Santoso", 30);<br>
+                    console.log(person1.getInfo());
+                </div>
+                <div class="explanation">
+                    <strong>Penjelasan:</strong> 
+                    <ul>
+                        <li>Object dapat memiliki method (fungsi sebagai properti)</li>
+                        <li><code>this</code> merujuk pada object yang memiliki method</li>
+                        <li>Constructor function (dengan awalan kapital) digunakan untuk membuat banyak object dengan struktur serupa</li>
+                        <li><code>new</code> keyword digunakan untuk membuat instance baru</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="output-section">
+            <h2 class="output-title"><i class="fas fa-terminal"></i> Output Console</h2>
+            <div class="output-content" id="output-console">
+                Output akan muncul di sini ketika Anda menjalankan contoh...
+            </div>
+            
+            <div class="output-example">
+                <h4><i class="fas fa-lightbulb"></i> Contoh Lainnya</h4>
+                <p>Klik pada contoh di bawah untuk melihat kodenya:</p>
+                
+                <div class="example-grid">
+                    <div class="example-item" onclick="showCode('img')">
+                        <div class="color-box" style="background: linear-gradient(135deg, #6a11cb, #2575fc);"></div>
+                        <div>Image</div>
+                    </div>
+                    <div class="example-item" onclick="showCode('color')">
+                        <div class="color-box" style="background: linear-gradient(135deg, #ff0000, #ff7878);"></div>
+                        <div>Color</div>
+                    </div>
+                    <div class="example-item" onclick="showCode('text')">
+                        <div class="color-box" style="background: linear-gradient(135deg, #00b09b, #96c93d);"></div>
+                        <div>Text</div>
+                    </div>
+                    <div class="example-item" onclick="showCode('form')">
+                        <div class="color-box" style="background: linear-gradient(135deg, #ff6b6b, #ffa8a8);"></div>
+                        <div>Form</div>
+                    </div>
+                </div>
+                
+                <div class="code-block" id="example-code" style="display: none; margin-top: 20px;">
+                    // Kode contoh akan muncul di sini
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Output element
+        const outputConsole = document.getElementById('output-console');
+        const exampleCode = document.getElementById('example-code');
+        
+        // Clear output
+        function clearOutput() {
+            outputConsole.innerHTML = '';
+        }
+        
+        // Add output
+        function addOutput(text) {
+            outputConsole.innerHTML += text + '\n';
+            outputConsole.scrollTop = outputConsole.scrollHeight;
+        }
+        
+        // Run examples
+        function runGetElementById() {
+            clearOutput();
+            addOutput('Running document.getElementById example:');
+            addOutput('Mengubah teks dan warna elemen output...');
+            
+            // Simulate element change
+            outputConsole.innerHTML = "Teks diubah!";
+            outputConsole.style.color = "red";
+            
+            setTimeout(() => {
+                outputConsole.style.color = "#f0f0f0";
+                addOutput('\nContoh lainnya:');
+                addOutput('- document.getElementById("myImage").src = "new_image.jpg"');
+                addOutput('- document.getElementById("myDiv").style.display = "none"');
+            }, 1500);
+        }
+        
+        function runVariables() {
+            clearOutput();
+            addOutput('Running variables example:');
+            
+            // var example
+            var nama = "Afif";
+            addOutput(`var nama = "${nama}"`);
+            
+            // let example
+            let umur = 25;
+            addOutput(`let umur = ${umur}`);
+            
+            // const example
+            const pi = 3.14;
+            addOutput(`const pi = ${pi}`);
+            
+            // Scope example
+            if (true) {
+                var a = 10;
+                let b = 20;
+                addOutput(`Di dalam block: a = ${a}, b = ${b}`);
+            }
+            
+            addOutput(`Di luar block: a = ${a}`);
+            addOutput(`Di luar block: b tidak dapat diakses (ReferenceError)`);
+        }
+        
+        function runIfStatement() {
+            clearOutput();
+            addOutput('Running if statement example:');
+            
+            const nilai = 85;
+            addOutput(`Nilai: ${nilai}`);
+            
+            if (nilai >= 90) {
+                addOutput("Grade: A");
+            } else if (nilai >= 80) {
+                addOutput("Grade: B");
+            } else if (nilai >= 70) {
+                addOutput("Grade: C");
+            } else {
+                addOutput("Grade: D");
+            }
+        }
+        
+        function runSwitch() {
+            clearOutput();
+            addOutput('Running switch statement example:');
+            
+            const hari = "Senin";
+            let aktivitas;
+            
+            addOutput(`Hari: ${hari}`);
+            
+            switch (hari) {
+                case "Senin":
+                    aktivitas = "Meeting tim";
+                    break;
+                case "Rabu":
+                    aktivitas = "Presentasi klien";
+                    break;
+                case "Jumat":
+                    aktivitas = "Review mingguan";
+                    break;
+                default:
+                    aktivitas = "Coding";
+            }
+            
+            addOutput(`Aktivitas: ${aktivitas}`);
+        }
+        
+        function runForLoop() {
+            clearOutput();
+            addOutput('Running for loop example:');
+            
+            addOutput("Loop dasar (0-4):");
+            for (let i = 0; i < 5; i++) {
+                addOutput(`Iterasi ke-${i}`);
+            }
+            
+            addOutput("\nLoop melalui array:");
+            const buah = ["Apel", "Mangga", "Jeruk"];
+            for (let i = 0; i < buah.length; i++) {
+                addOutput(buah[i]);
+            }
+            
+            addOutput("\nfor...of loop:");
+            for (const b of buah) {
+                addOutput(b);
+            }
+        }
+        
+        function runFunction() {
+            clearOutput();
+            addOutput('Running function example:');
+            
+            // Function declaration
+            function sapa(nama) {
+                return `Halo, ${nama}!`;
+            }
+            addOutput(sapa("Budi"));
+            
+            // Function expression
+            const tambah = function(a, b) {
+                return a + b;
+            };
+            addOutput(`5 + 3 = ${tambah(5, 3)}`);
+            
+            // Arrow function
+            const kali = (a, b) => a * b;
+            addOutput(`4 * 6 = ${kali(4, 6)}`);
+        }
+        
+        function runReturn() {
+            clearOutput();
+            addOutput('Running return statement example:');
+            
+            function cekGenap(angka) {
+                if (angka % 2 === 0) {
+                    return true;
+                }
+                return false;
+            }
+            
+            addOutput(`cekGenap(4): ${cekGenap(4)}`);
+            addOutput(`cekGenap(7): ${cekGenap(7)}`);
+            
+            function hitungLuas(panjang, lebar) {
+                return panjang * lebar;
+            }
+            
+            addOutput(`hitungLuas(5, 4): ${hitungLuas(5, 4)}`);
+        }
+        
+        function runTryCatch() {
+            clearOutput();
+            addOutput('Running try...catch example:');
+            
+            try {
+                addOutput("Mencoba pembagian...");
+                const hasil = 10 / 0;
+                
+                if (!isFinite(hasil)) {
+                    throw new Error("Pembagian dengan nol!");
+                }
+                
+                addOutput(`Hasil: ${hasil}`);
+            } catch (error) {
+                addOutput(`Terjadi error: ${error.message}`);
+            } finally {
+                addOutput("Proses selesai (finally block)");
+            }
+        }
+        
+        function runObjectAccess() {
+            clearOutput();
+            addOutput('Running object property access example:');
+            
+            const person = {
+                name: "Afif",
+                age: 25,
+                "hobbies": ["coding", "gaming"]
+            };
+            
+            addOutput(`Object awal: ${JSON.stringify(person)}`);
+            
+            // Dot notation
+            addOutput(`\nDot notation: person.name = ${person.name}`);
+            
+            // Bracket notation
+            addOutput(`Bracket notation: person["age"] = ${person["age"]}`);
+            
+            // Expression
+            const prop = "hobbies";
+            addOutput(`Expression: person[prop] = ${JSON.stringify(person[prop])}`);
+            
+            // Adding property
+            person.job = "Developer";
+            addOutput(`\nSetelah menambah job: ${JSON.stringify(person)}`);
+            
+            // Deleting property
+            delete person.age;
+            addOutput(`Setelah menghapus age: ${JSON.stringify(person)}`);
+        }
+        
+        function runObjectMethods() {
+            clearOutput();
+            addOutput('Running object methods & constructor example:');
+            
+            // Object with method
+            const person = {
+                firstName: "Afif",
+                lastName: "Maulana",
+                fullName: function() {
+                    return `${this.firstName} ${this.lastName}`;
+                }
+            };
+            
+            addOutput(`person.fullName(): ${person.fullName()}`);
+            
+            // Constructor function
+            function Person(first, last, age) {
+                this.firstName = first;
+                this.lastName = last;
+                this.age = age;
+                this.getInfo = function() {
+                    return `${this.firstName} ${this.lastName}, ${this.age} tahun`;
+                };
+            }
+            
+            // Create instance
+            const person1 = new Person("Budi", "Santoso", 30);
+            addOutput(`person1.getInfo(): ${person1.getInfo()}`);
+        }
+        
+        // Show example code
+        function showCode(type) {
+            exampleCode.style.display = 'block';
+            
+            switch(type) {
+                case 'img':
+                    exampleCode.innerHTML = 
+                        '// Mengubah gambar<br>' +
+                        'document.getElementById("gambar").src = "gambar_baru.jpg";<br><br>' +
+                        '// Membuat elemen gambar baru<br>' +
+                        'const img = document.createElement("img");<br>' +
+                        'img.src = "foto.jpg";<br>' +
+                        'img.alt = "Deskripsi foto";<br>' +
+                        'document.body.appendChild(img);';
+                    break;
+                    
+                case 'color':
+                    exampleCode.innerHTML = 
+                        '// Mengubah warna latar<br>' +
+                        'document.body.style.backgroundColor = "#f0f0f0";<br><br>' +
+                        '// Mengubah warna teks<br>' +
+                        'document.getElementById("teks").style.color = "red";<br><br>' +
+                        '// Gradient<br>' +
+                        'element.style.background = "linear-gradient(90deg, red, yellow)";';
+                    break;
+                    
+                case 'text':
+                    exampleCode.innerHTML = 
+                        '// Mengubah teks<br>' +
+                        'document.getElementById("judul").innerText = "Judul Baru";<br><br>' +
+                        '// Menambah konten HTML<br>' +
+                        'document.getElementById("konten").innerHTML = "<p>Paragraf baru</p>";<br><br>' +
+                        '// Mengubah nilai input<br>' +
+                        'document.getElementById("nama").value = "Budi";';
+                    break;
+                    
+                case 'form':
+                    exampleCode.innerHTML = 
+                        '// Mengakses nilai form<br>' +
+                        'const nama = document.getElementById("nama").value;<br><br>' +
+                        '// Validasi form<br>' +
+                        'if (nama === "") {<br>' +
+                        '&nbsp;&nbsp;alert("Nama harus diisi!");<br>' +
+                        '}<br><br>' +
+                        '// Mencegah submit default<br>' +
+                        'document.getElementById("formku").addEventListener("submit", (e) => {<br>' +
+                        '&nbsp;&nbsp;e.preventDefault();<br>' +
+                        '&nbsp;&nbsp;// Proses form<br>' +
+                        '});';
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>
